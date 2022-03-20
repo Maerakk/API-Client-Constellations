@@ -20,9 +20,28 @@ const constellationDao = {
         else {
             return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.Stars)
         }
-        
+
     }
     ,
+    addConstellation: async (constell2add) => {
+        return await prisma.constellation.create({
+            data: {
+                id: constell2add.id,
+                latinName: constell2add.latinName,
+                frenchName: constell2add.frenchName,
+                englishName: constell2add.englishName,
+                code: constell2add.code,
+                season: constell2add.season,
+                mainStar: constell2add.mainStar,
+                celestialZone: constell2add.celestialZone,
+                eclipticZone: constell2add.eclipticZone,
+                milkyWayZone: constell2add.milkyWayZone,
+                quad: constell2add.quad,
+                origin: constell2add.origin,
+                Stars: constell2add.Stars
+            }
+        })
+    },
 
     deleteConstellationById: async (id) => {
         try {
@@ -42,26 +61,6 @@ const constellationDao = {
 
             }
         });
-    }
-    ,
-    addConstellation: async (constell2add) => {
-        const constell = await prisma.constellation.create({
-            data: {
-                id : constell2add.id,
-                latinName : constell2add.latinName,
-                frenchName : constell2add.frenchName,
-                englishName: constell2add.englishName,
-                code : constell2add.code,
-                season : constell2add.season,
-                mainStar : constell2add.mainStar,
-                celestialZone: constell2add.celestialZone,
-                eclipticZone : constell2add.eclipticZone,
-                milkyWayZone : constell2add.milkyWayZone,
-                quad : constell2add.quad,
-                origin : constell2add.origin,
-                Stars : constell2add.Stars
-            }
-        })
     }
 
 }

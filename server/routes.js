@@ -4,6 +4,7 @@ const constellationController = require('./controller/constellation.controller')
 const starsController = require('./controller/star.controller').starController;
 const Joi = require('joi');
 const Boom = require('@hapi/boom');
+const Hapi = require('@hapi/hapi')
 
 
 // Joi Objects
@@ -39,13 +40,13 @@ module.exports = [
     method: 'GET',
     path: '/api',
     options: {
-        handler: async (request, h, res) => {
-            // return h.response.status
-            // return 'Hello, hapi!';
-            // let ret = JSON.stringify(res);
-            // let response=  h.response(ret).header('Access-Control-Allow-Origin', '164.132.225.210:1234')
-            return 'hello'
-                // .type('application/json')
+        handler:async (request, reply) => {
+            var payload = request.payload   // <-- this is the important line
+
+            console.log(payload)
+
+            reply(payload)
+            // return 'hello'
         },
         plugins: {
             'hapi-swagger': {
@@ -133,10 +134,40 @@ module.exports = [
         }
     },
     {
-        path: '/constellations/add/{constellation}',
+        path: '/constellations/add',
         method: 'POST',
-        handler: (request, response,h) => {
-            return constellationController.addConstellation(request);
+        options: {
+            handler: (request, reply, h) => {
+                // return "delete"
+                // return constellationController.addConstellation(request);
+                // const playload = {
+                //     id: request.playload.id,
+                //     latinName: request.playload.latinName,
+                //     frenchName: request.playload.frenchName,
+                //     englishName: request.playload.englishName,
+                //     code: request.playload.code,
+                //     season: request.playload.season,
+                //     mainStar: request.playload.mainStar,
+                //     celestialZone: request.playload.celestialZone,
+                //     eclipticZone: request.playload.eclipticZone,
+                //     milkyWayZone: request.playload.milkyWayZone,
+                //     quad: request.playload.quad,
+                //     origin: request.playload.origin,
+                //     Stars: request.playload.Stars
+                // };
+                return request.playload
+            },
+            description: 'Add a constellation',
+            tags: ['api'],
+            plugins: {
+                'hapi-swagger':{
+                    responses: {
+                        '200':{
+                            description: 'Constellation added successfully'
+                        }
+                    }
+                }
+            }
         }
     },
     {
@@ -170,10 +201,11 @@ module.exports = [
         }
     },
     {
-        path: '/stars/add',
+        path: '/stars/add/{star}',
         method: 'POST',
         handler: (request,h) => {
-            return starsController.addStar(request);
+            const star = request.params.star
+            return starsController.addStar(star);
         }
     },
     {
