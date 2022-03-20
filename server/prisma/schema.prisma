@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./datasource.db"
+}
+
+model Constellation {
+  id            Int    @id @default(autoincrement())
+  latinName     String @unique
+  frenchName    String @unique
+  englishName   String @unique
+  code          String @unique
+  season        String
+  mainStar      String
+  celestialZone String
+  eclipticZone  String
+  milkyWayZone  String?
+  quad          String
+  origin        String
+  stars         Star[]
+}
+
+model Star{
+  id                String
+  designation       String @id
+  name              String
+  constellation     Constellation @relation(fields:[constellationCode],references:[code])
+  constellationCode String
+  approvalDate     String
+}

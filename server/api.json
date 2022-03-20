@@ -1,0 +1,15 @@
+{
+  "info": {
+    "title": "Node Swagger API",
+    "version": "1.0.0",
+    "description": "Demonstrating how to describe a RESTful API with Swagger"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "swagger": "2.0",
+  "paths": { },
+  "definitions": { },
+  "responses": { },
+  "parameters": { },
+  "securityDefinitions": { }
+}

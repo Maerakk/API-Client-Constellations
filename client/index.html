@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Maerak Star Finder</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+        <link href="assets/css/main.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="assets/vendor/materialize/css/materialize.css">
+        <script src="assets/vendor/vueJS/vue.js"></script>
+
+    </head>
+    <body>
+        <!-- background stars -->
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+
+        <!-- navbar -->
+        <nav class="blue-grey darken-4">
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo">Logo</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="sass.html">Sass</a></li>
+                    <li><a href="badges.html">Components</a></li>
+                    <li><a href="collapsible.html">Javascript</a></li>
+                    <li><a href="mobile.html">Mobile</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!--for the mobile compatibility-->
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="sass.html">Sass</a></li>
+            <li><a href="badges.html">Components</a></li>
+            <li><a href="collapsible.html">Javascript</a></li>
+            <li><a href="mobile.html">Mobile</a></li>
+        </ul>
+
+        <!-- main content -->
+        <div class="container">
+            <!-- 2 empty row for the nav -->
+            <div class="row"></div>
+            <div class="row"></div>
+
+            <div class="row">
+                <app class="col-12"></app>
+            </div>
+        </div>
+
+        <script src="assets/vendor/materialize/js/materialize.js"></script>
+        <script type="module" src="src/components/constellation.vue.js"></script>
+        <script type="module" src="src/components/app.js"></script>
+        <script type="module" src="src/main.js"></script>
+        <script src="assets/js/main.js"></script>
+    </body>
+</html>
