@@ -5,7 +5,7 @@ const constellation = require('../server/model/constellation.model')
 const star = require('../server/model/star.model')
 
 const createConstell = async function (){
-    await fs.readFile("88-constellations.json",'utf-8',
+    await fs.readFile("data/88-constellations.json",'utf-8',
         async (err, data) => {
             if(err){
                 console.log(err);

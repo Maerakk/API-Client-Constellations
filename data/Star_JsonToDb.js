@@ -5,7 +5,7 @@ const constellation = require('../server/model/constellation.model')
 const star = require('../server/model/star.model')
 
 const starCreate = async function (){
-    await fs.readFile("list-of-iau-approved-star-names-as-of-24112016.json",'utf-8',
+    await fs.readFile("data/list-of-iau-approved-star-names-as-of-24112016.json",'utf-8',
         async  (err,data)=>{
             if(err){
                 console.log(err);
@@ -34,7 +34,7 @@ const starCreate = async function (){
                                 data:{
                                     stars:{
                                         connect:{
-                                            name:curStar.fields.iau_name
+                                            designation:createdStar.designation
                                         }
                                     }
                                 }
