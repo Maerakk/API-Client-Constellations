@@ -5,6 +5,9 @@ const starsController = require('./controller/star.controller').starController;
 const Joi = require('joi');
 const Boom = require('@hapi/boom');
 const Hapi = require('@hapi/hapi')
+const Prisma = require('prisma/prisma-client');
+const Constellation = require("./model/constellation.model");
+const prisma = new Prisma.PrismaClient();
 
 
 // Joi Objects
@@ -137,25 +140,34 @@ module.exports = [
         path: '/constellations/add',
         method: 'POST',
         options: {
-            handler: (request, reply, h) => {
-                // return "delete"
-                // return constellationController.addConstellation(request);
-                // const playload = {
-                //     id: request.playload.id,
-                //     latinName: request.playload.latinName,
-                //     frenchName: request.playload.frenchName,
-                //     englishName: request.playload.englishName,
-                //     code: request.playload.code,
-                //     season: request.playload.season,
-                //     mainStar: request.playload.mainStar,
-                //     celestialZone: request.playload.celestialZone,
-                //     eclipticZone: request.playload.eclipticZone,
-                //     milkyWayZone: request.playload.milkyWayZone,
-                //     quad: request.playload.quad,
-                //     origin: request.playload.origin,
-                //     Stars: request.playload.Stars
-                // };
-                return request.playload
+            handler: async (request, h)  => {
+                try {
+                    const payload = {
+                        id: request.payload.id,
+                        latinName: request.payload.latinName,
+                        frenchName: request.payload.frenchName,
+                        englishName: request.payload.englishName,
+                        code: request.payload.code,
+                        season: request.payload.season,
+                        mainStar: request.payload.mainStar,
+                        celestialZone: request.payload.celestialZone,
+                        eclipticZone: request.payload.eclipticZone,
+                        milkyWayZone: request.payload.milkyWayZone,
+                        quad: request.payload.quad,
+                        origin: request.payload.origin,
+                        stars: request.payload.stars
+                    };
+                    if (Object.values(payload).includes(undefined)) {
+                        return h.response({error: "request error"}).code(203);
+                    } else {
+                        return constellationController.addConstellation(payload)
+                    }
+                } catch(error) {
+                    // return error
+                    return h.response({error: error}).code(203)
+                }
+
+
             },
             description: 'Add a constellation',
             tags: ['api'],
