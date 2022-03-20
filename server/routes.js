@@ -5,6 +5,9 @@ const starsController = require('./controller/star.controller').starController;
 const Joi = require('joi');
 const Boom = require('@hapi/boom');
 const Hapi = require('@hapi/hapi')
+const Prisma = require('prisma/prisma-client');
+const Constellation = require("./model/constellation.model");
+const prisma = new Prisma.PrismaClient();
 
 
 // Joi Objects
@@ -137,7 +140,7 @@ module.exports = [
         path: '/constellations/add',
         method: 'POST',
         options: {
-            handler: function (request, h)  {
+            handler: async (request, h)  => {
                 try {
                     const payload = {
                         id: request.payload.id,
@@ -157,12 +160,14 @@ module.exports = [
                     if (Object.values(payload).includes(undefined)) {
                         return h.response({error: "request error"}).code(203);
                     } else {
-                        let response = constellationController.addConstellation(payload)
-                        return h.response(response).code(201);
+                        return constellationController.addConstellation(payload)
                     }
                 } catch(error) {
+                    // return error
                     return h.response({error: error}).code(203)
                 }
+
+
             },
             description: 'Add a constellation',
             tags: ['api'],

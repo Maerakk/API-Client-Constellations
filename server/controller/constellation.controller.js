@@ -17,7 +17,11 @@ const constellationController = {
             throw new Error('already exists');
         }
         else {
-            return await constellationDao.addConstellation(payload)
+            try {
+                return await constellationDao.addConstellation(payload)
+            }catch(e){
+                return e
+            }
         }
     }
     ,

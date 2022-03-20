@@ -13,41 +13,44 @@ const constellationDao = {
     ,
 
     findConstellationById: async (id) => {
-        const constell = await prisma.constellation.findUnique({where: {id: id}});
+        const constell = await prisma.constellation.findUnique({where: {id: id}, include: {stars:true}});
         if (constell == null) {
             return null
         }
         else {
-            // return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.stars)
-            return constell
+            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.stars)
             }
 
     }
     ,
-    addConstellation: async (constell2add) => {
-        return await prisma.constellation.create({
-            data: {
-                id: constell2add.id,
-                latinName: constell2add.latinName,
-                frenchName: constell2add.frenchName,
-                englishName: constell2add.englishName,
-                code: constell2add.code,
-                season: constell2add.season,
-                mainStar: constell2add.mainStar,
-                celestialZone: constell2add.celestialZone,
-                eclipticZone: constell2add.eclipticZone,
-                milkyWayZone: constell2add.milkyWayZone,
-                quad: constell2add.quad,
-                origin: constell2add.origin,
-                stars: constell2add.stars
-            }
-        })
+    addConstellation: async (payload) => {
+// return payload
+                const constell = await prisma.constellation.create({
+                    data: {
+                        id: payload.id,
+                        latinName: payload.latinName,
+                        frenchName: payload.frenchName,
+                        englishName: payload.englishName,
+                        code: payload.code,
+                        season: payload.season,
+                        mainStar: payload.mainStar,
+                        celestialZone: payload.celestialZone,
+                        eclipticZone: payload.eclipticZone,
+                        milkyWayZone: payload.milkyWayZone,
+                        quad: payload.quad,
+                        origin: payload.origin,
+                        stars: payload.stars
+                    }
+                })
+
+
+            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.stars)
     },
 
     deleteConstellationById: async (id) => {
         try {
             const constell = await prisma.constellation.delete({where: {id: id}})
-            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.Stars)
+            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.stars)
         }catch (e) {
             return null;
         }
