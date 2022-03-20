@@ -8,7 +8,7 @@ const vision = require('@hapi/vision');
 
     const server = Hapi.server({
         port: 8080,
-        host: '164.132.225.210'
+        host: 'localhost'
     });
 
 
