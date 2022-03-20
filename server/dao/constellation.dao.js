@@ -18,8 +18,9 @@ const constellationDao = {
             return null
         }
         else {
-            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.Stars)
-        }
+            // return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.stars)
+            return constell
+            }
 
     }
     ,
@@ -38,7 +39,7 @@ const constellationDao = {
                 milkyWayZone: constell2add.milkyWayZone,
                 quad: constell2add.quad,
                 origin: constell2add.origin,
-                Stars: constell2add.Stars
+                stars: constell2add.stars
             }
         })
     },
