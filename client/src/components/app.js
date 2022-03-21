@@ -6,9 +6,9 @@ Vue.component('app', {
                 </div>
                </div>`,
     data : async function () {
-        fetch("http://164.132.225.210:8080/constellations",{method:'GET',headers:{mode:'no-cors'}}).then(data=>console.log(data))
+        fetch("http://localhost:1234/constellations",{method:'GET',headers:{mode:'no-cors'}}).then(data=>console.log(data))
         return {
-            constellations: await fetch("http://164.132.225.210:8080/constellations",{method:'GET',headers:{mode:'no-cors'}}),
+            constellations: await fetch("http://localhost:1234/constellations",{method:'GET',headers:{mode:'no-cors'}}),
             idSelected: null
         }},
     methods: {

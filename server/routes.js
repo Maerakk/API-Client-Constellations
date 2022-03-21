@@ -43,12 +43,9 @@ module.exports = [
     method: 'GET',
     path: '/api',
     options: {
-        handler:async (request, reply) => {
-            var payload = request.payload   // <-- this is the important line
+        handler:async (request, h) => {
 
-            console.log(payload)
-
-            reply(payload)
+           return  h.response("hello").header('head','er')
             // return 'hello'
         },
         plugins: {

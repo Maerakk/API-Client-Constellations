@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server/start.js",
+    "client": "cd .\\client\\ && live-server",
     "test-rest": "lab server/test --coverage"
   },
   "repository": {
@@ -38,6 +39,7 @@
     "hapi": "^18.1.0",
     "hapi-swagger": "^14.2.5",
     "joi": "^17.6.0",
+    "live-server": "^1.2.1",
     "nodemon": "^2.0.15",
     "npm": "^8.5.4",
     "vue": "^3.2.31"
