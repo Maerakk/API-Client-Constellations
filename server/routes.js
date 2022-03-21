@@ -101,11 +101,6 @@ module.exports = [
         tags: ['api'],
         description: 'Get all constellations',
         handler: (request, h,res) => {
-            // let ret = JSON.stringify(res);
-            // let response=  h.response(ret).header('Access-Control-Allow-Origin', '164.132.225.210:1234')
-            //  constellationController.findAllConstellation().then(response =>{
-            //      return h.response(response).header('Access-Control-Allow-Origin','164.132.225.210:1234')});
-            // reply(constellationController.findAllConstellation()).header('Access-Control-Allow-Origin', '164.132.225.210:1234');
             return constellationController.findAllConstellation();
         },
         notes: 'Renvoie un tableau de constellations'
