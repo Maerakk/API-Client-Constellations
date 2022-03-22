@@ -25,27 +25,38 @@ const constellationDao = {
     ,
     addConstellation: async (payload) => {
 // return payload
-                const constell = await prisma.constellation.create({
-                    data: {
-                        id: payload.id,
-                        latinName: payload.latinName,
-                        frenchName: payload.frenchName,
-                        englishName: payload.englishName,
-                        code: payload.code,
-                        season: payload.season,
-                        mainStar: payload.mainStar,
-                        celestialZone: payload.celestialZone,
-                        eclipticZone: payload.eclipticZone,
-                        milkyWayZone: payload.milkyWayZone,
-                        quad: payload.quad,
-                        origin: payload.origin,
-                        stars: payload.stars
+        const stars = JSON.parse(payload.stars);
+        try {
+            const constell = await prisma.constellation.create({
+                data: {
+                    id: payload.id,
+                    latinName: payload.latinName,
+                    frenchName: payload.frenchName,
+                    englishName: payload.englishName,
+                    code: payload.code,
+                    season: payload.season,
+                    mainStar: payload.mainStar,
+                    celestialZone: payload.celestialZone,
+                    eclipticZone: payload.eclipticZone,
+                    milkyWayZone: payload.milkyWayZone,
+                    quad: payload.quad,
+                    origin: payload.origin,
+                    stars: {
+                        create:[]
                     }
-                })
+
+            }
+        })
 
 
             return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.stars)
-    },
+
+        }catch(e){
+            console.log(e)
+        }
+
+
+            },
 
     deleteConstellationById: async (id) => {
         try {

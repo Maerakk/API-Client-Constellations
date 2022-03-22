@@ -112,9 +112,10 @@ module.exports = [
         path: '/constellations/{id}',
         method: 'GET',
         options: {
-            handler: (request, h) => {
+            handler: async (request, h) => {
                 const id = parseInt(request.params.id);
-                return constellationController.findConstellationById(id);
+                const response = await constellationController.findConstellationById(id)
+                return h.response(response).header("access-control-allow-origin","127.0.0.1");
             },
             description: 'Get one constellation by its id',
             tags: ['api'],
@@ -153,7 +154,12 @@ module.exports = [
                     if (Object.values(payload).includes(undefined)) {
                         return h.response({error: "request error"}).code(203);
                     } else {
-                        return constellationController.addConstellation(payload)
+                        const response = await constellationController.addConstellation(payload)
+                        if (response==null) {
+                            return h.response({error: "request error"}).code(203)
+                        }else {
+                            return h.response(response).header("access-control-allow-origin", "127.0.0.1").code(201);
+                        }
                     }
                 } catch(error) {
                     // return error
@@ -180,9 +186,10 @@ module.exports = [
         method: 'DELETE',
         options: {
 
-            handler: (request, h) => {
+            handler: async (request, h) => {
                 const id = parseInt(request.params.id);
-                return h.response(constellationController.deleteConstellationById(id));
+                const response = await constellationController.deleteConstellationById(id);
+                return h.response(response);
             },
             description: 'Delete a constellation. Delete the stars too !',
             tags: ['api'],
