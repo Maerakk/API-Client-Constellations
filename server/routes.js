@@ -186,10 +186,9 @@ module.exports = [
         method: 'DELETE',
         options: {
 
-            handler: async (request, h) => {
+            handler: (request, h) => {
                 const id = parseInt(request.params.id);
-                const response = await constellationController.deleteConstellationById(id);
-                return h.response(response);
+                return constellationController.deleteConstellationById(id);
             },
             description: 'Delete a constellation. Delete the stars too !',
             tags: ['api'],
