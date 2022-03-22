@@ -177,9 +177,14 @@ module.exports = [
     {
         path: '/constellations/delete/{id}',
         method: 'DELETE',
-        handler: (request, h) => {
-            const id = parseInt(request.params.id);
-            return constellationController.deleteConstellationById(id);
+        options: {
+
+            handler: (request, h) => {
+                const id = parseInt(request.params.id);
+                return constellationController.deleteConstellationById(id);
+            },
+            description: 'Delete a constellation. Delete the stars too !',
+            tags: ['api']
         }
     }
     ,
