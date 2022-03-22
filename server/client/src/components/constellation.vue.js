@@ -13,7 +13,8 @@ Vue.component('constellation', {
                         <div class="card-action">
                             <a href="#">This is a link</a>
                         </div>
-               </div>`,
+                    </div>
+                </div>`,
     data : {},
     methods: {}
 })

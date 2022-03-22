@@ -91,7 +91,7 @@ module.exports = [
         description: 'Get all constellations',
         handler: async (request, h,res) => {
             const response = await constellationController.findAllConstellation()
-            return h.response(response).header("access-control-allow-origin","127.0.0.1");
+            return h.response(response).header("Access-Control-Allow-Origin","http://127.0.0.1");
         },
         notes: 'Renvoie un tableau de constellations',
         plugins: {
