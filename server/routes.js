@@ -100,8 +100,9 @@ module.exports = [
         },
         tags: ['api'],
         description: 'Get all constellations',
-        handler: (request, h,res) => {
-            return constellationController.findAllConstellation();
+        handler: async (request, h,res) => {
+            const response = await constellationController.findAllConstellation()
+            return h.response(response).header("access-control-allow-origin","127.0.0.1");
         },
         notes: 'Renvoie un tableau de constellations'
     }
@@ -181,10 +182,19 @@ module.exports = [
 
             handler: (request, h) => {
                 const id = parseInt(request.params.id);
-                return constellationController.deleteConstellationById(id);
+                return h.response(constellationController.deleteConstellationById(id));
             },
             description: 'Delete a constellation. Delete the stars too !',
-            tags: ['api']
+            tags: ['api'],
+            plugins: {
+                'hapi-swagger':{
+                    responses: {
+                        '200':{
+                            description: 'Constellation deleted successfully'
+                        }
+                    }
+                }
+            }
         }
     }
     ,
