@@ -32,13 +32,7 @@ const constellationController = {
         }
         return constell
     },
-    deleteConstellationWithStarsById : async (id) => {
-        const constell = await constellationDao.deleteConstellationWithStarsById(id)
-        if (constell == null) {
-            throw new Error('not found');
-        }
-        return constell;
-    },
+
     deleteConstellations : async () => {
         return await constellationDao.deleteConstellations();
     }

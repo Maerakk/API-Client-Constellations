@@ -24,14 +24,14 @@ model Constellation {
   milkyWayZone  String?
   quad          String
   origin        String
-  stars         Star[] @onDelete(CASCADE)
+  stars         Star[]
 }
 
 model Star{
   id                String
   designation       String @id
   name              String
-  constellation     Constellation @relation(fields:[constellationCode],references:[code])
+  constellation     Constellation @relation(fields:[constellationCode],references:[code], onDelete: Cascade)
   constellationCode String
   approvalDate     String
 }

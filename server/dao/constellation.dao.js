@@ -54,17 +54,6 @@ const constellationDao = {
         }catch (e) {
             console.log(e);
         }
-    },
-    deleteConstellationWithStarsById: async (id) => {
-        try  {
-            return await prisma.constellation.update({
-                where: {id: id},
-                data: {stars: {delete: true}}
-            })
-        }catch (e) {
-            console.log(e);
-        }
-
     }
     ,
     deleteConstellations: async () => {

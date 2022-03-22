@@ -181,14 +181,6 @@ module.exports = [
             const id = parseInt(request.params.id);
             return constellationController.deleteConstellationById(id);
         }
-    },
-    {
-        path: '/constellations/deleteWithStars/{id}',
-        method: 'PUT',
-        handler: (request, h) => {
-            const id = parseInt(request.params.id);
-            return constellationController.deleteConstellationWithStarsById(id);
-        }
     }
     ,
     {
