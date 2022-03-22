@@ -87,6 +87,13 @@ module.exports = [
     path: '/constellations',
     method: 'GET',
     options: {
+        tags: ['api'],
+        description: 'Get all constellations',
+        handler: async (request, h,res) => {
+            const response = await constellationController.findAllConstellation()
+            return h.response(response).header("access-control-allow-origin","127.0.0.1");
+        },
+        notes: 'Renvoie un tableau de constellations',
         plugins: {
             'hapi-swagger': {
                 responses: {
@@ -97,14 +104,7 @@ module.exports = [
                     }
                 }
             }
-        },
-        tags: ['api'],
-        description: 'Get all constellations',
-        handler: async (request, h,res) => {
-            const response = await constellationController.findAllConstellation()
-            return h.response(response).header("access-control-allow-origin","127.0.0.1");
-        },
-        notes: 'Renvoie un tableau de constellations'
+        }
     }
 },
 
