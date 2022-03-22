@@ -24,7 +24,7 @@ model Constellation {
   milkyWayZone  String?
   quad          String
   origin        String
-  stars         Star[]
+  stars         Star[] @onDelete(CASCADE)
 }
 
 model Star{

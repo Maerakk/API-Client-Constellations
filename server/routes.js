@@ -183,6 +183,15 @@ module.exports = [
         }
     },
     {
+        path: '/constellations/deleteWithStars/{id}',
+        method: 'PUT',
+        handler: (request, h) => {
+            const id = parseInt(request.params.id);
+            return constellationController.deleteConstellationWithStarsById(id);
+        }
+    }
+    ,
+    {
         path: '/constellations/delete',
         method: 'DELETE',
         handler: (request, h) => {
