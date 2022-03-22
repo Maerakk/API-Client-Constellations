@@ -25,8 +25,8 @@ const constellationDao = {
     ,
     addConstellation: async (payload) => {
 // return payload
-        const stars = JSON.parse(payload.stars);
         try {
+            const stars = payload.stars;
             const constell = await prisma.constellation.create({
                 data: {
                     id: payload.id,
@@ -47,13 +47,48 @@ const constellationDao = {
 
             }
         })
+                stars.forEach(curStar => {
+                    prisma.constellation.findUnique({
+                        where: {
+                            code: constell.code
+                        }
+                    })
+                .then(constel => {
+                        prisma.star.create({
+                            data: {
+                                id: curStar.id,
+                                designation: curStar.designation,
+                                name: curStar.name,
+                                constellationCode: curStar.constellationCode,
+                                approvalDate: curStar.approvalDate
+                            }
+                        }).then(createdStar => {
+                            console.log(createdStar)
+                            prisma.constellation.update({
+                                where: {
+                                    code: createdStar.constellationCode
+                                },
+                                data: {
+                                    stars: {
+                                        connect: {
+                                            designation: createdStar.designation
+                                        }
+                                    }
+                                }
+                            }).then(data => {
+                                console.log(data)
+                            })
+                        })
+                    })
+                })
 
 
-            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.stars)
+            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, stars)
 
         }catch(e){
             console.log(e)
         }
+
 
 
             },
