@@ -44,8 +44,10 @@ module.exports = [
     path: '/api',
     options: {
         handler:async (request, h) => {
-
-           // return  h.response("hello").header('head','er')
+            const response = "Bonjour ! Bienvenue sur notre api de Constellations.\n" +
+                "Vous trouverez ici de quoi jouer avec les étoiles et leurs constellations.\n" +
+                "Avant de vous lancer veuillez lire la documentation de cette api sur http://localhost:1234/documentation.\n" ;
+            return h.response(response)
         },
         tags: ['api'],
         description: 'Page de garde',
@@ -89,6 +91,7 @@ module.exports = [
     options: {
         handler: async (request, h,res) => {
             const response = await constellationController.findAllConstellation()
+            return h.response(response);
             // return h.response(response).header("Access-Control-Allow-Origin","http://127.0.0.1");
         },
         tags: ['api'],
@@ -113,7 +116,7 @@ module.exports = [
             handler: async (request, h) => {
                 const id = request.params.id;
                 const response = await constellationController.findConstellationById(id)
-                return h.response(response).header("access-control-allow-origin","127.0.0.1");
+                return h.response(response);
             },
             description: 'Récupérer une constellation par son code',
             notes: 'Renvoie une constellation sous forme de json. Utiliser le code de la constellation pour l\'id',
@@ -122,13 +125,18 @@ module.exports = [
                 params: Joi.object({
                         id: Joi.string().min(3).max(3)
                     })},
+            response: {
+                '200':{
+                    schema: schemaConstellations
+                }},
 
 
             plugins: {
                 'hapi-swagger':{
                     responses: {
                         '200':{
-                            description: 'Constellation found'
+                            description: 'Constellation found',
+                            schema: schemaConstellations
                         }
                     }
                 }
