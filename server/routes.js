@@ -118,10 +118,10 @@ module.exports = [
             description: 'Récupérer une constellation par son code',
             notes: 'Renvoie une constellation sous forme de json. Utiliser le code de la constellation pour l\'id',
             tags: ['api'],
-            validate:
+            validate:{
                 params: Joi.object({
                         id: Joi.string()
-                    }),
+                    })},
 
 
             plugins: {
