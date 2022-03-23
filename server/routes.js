@@ -62,7 +62,7 @@ module.exports = [
     }},
 
     {
-    path: '/{any*}',
+    path: '/api/{any*}',
     method: 'GET',
         options: {
             handler: (request, h) => {
@@ -84,7 +84,7 @@ module.exports = [
 },
 
 {
-    path: '/constellations',
+    path: '/api/constellations',
     method: 'GET',
     options: {
         handler: async (request, h,res) => {
@@ -107,7 +107,7 @@ module.exports = [
 },
 
     {
-        path: '/constellations/{id}',
+        path: '/api/constellations/{id}',
         method: 'GET',
         options: {
             handler: async (request, h) => {
@@ -120,7 +120,7 @@ module.exports = [
             tags: ['api'],
             validate:{
                 params: Joi.object({
-                        id: Joi.string()
+                        id: Joi.string().min(3).max(3)
                     })},
 
 
@@ -136,7 +136,7 @@ module.exports = [
         }
     },
     {
-        path: '/constellations/add',
+        path: '/api/constellations/add',
         method: 'POST',
         options: {
             handler: async (request, h)  => {
@@ -187,7 +187,7 @@ module.exports = [
         }
     },
     {
-        path: '/constellations/delete/{id}',
+        path: '/api/constellations/delete/{id}',
         method: 'DELETE',
         options: {
 
@@ -210,21 +210,21 @@ module.exports = [
     }
     ,
     {
-        path: '/constellations/delete',
+        path: '/api/constellations/delete',
         method: 'DELETE',
         handler: (request, h) => {
             return constellationController.deleteConstellations();
         }
     },
     {
-        path: '/stars',
+        path: '/api/stars',
         method: 'GET',
         handler: (request, h) => {
             return starsController.findAllStars();
         }
     },
     {
-        path:'/stars/{id}',
+        path:'/api/stars/{id}',
         method: 'GET',
         handler: (request,h)=>{
             const id = request.params.id;
@@ -232,7 +232,7 @@ module.exports = [
         }
     },
     {
-        path: '/stars/add',
+        path: '/api/stars/add',
         method: 'POST',
         handler: async (request,h) => {
             try {
@@ -260,7 +260,7 @@ module.exports = [
         }
     },
     {
-        path: '/stars/delete/{id}',
+        path: '/api/stars/delete/{id}',
         method: 'DELETE',
         handler: (request,h) => {
             const id = request.params.id;
@@ -269,7 +269,7 @@ module.exports = [
         }
     },
     {
-        path: '/teapot',
+        path: '/api/teapot',
         method: 'GET',
         options: {
             handler: (request,h) => {return Boom.teapot()},
