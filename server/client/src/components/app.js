@@ -17,7 +17,7 @@ Vue.component('app', {
     },
     mounted(){
         this.$nextTick(()=> {
-            fetch("http://localhost:1234/constellations")
+            fetch("http://localhost:1234/api/constellations")
               .then(response => {
                   response.json()
                     .then(data=>{
