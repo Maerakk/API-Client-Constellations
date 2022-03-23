@@ -125,10 +125,10 @@ module.exports = [
                 params: Joi.object({
                         id: Joi.string().min(3).max(3)
                     })},
-            response: {
-                '200':{
-                    schema: schemaConstellations
-                }},
+            // response: {
+            //     '200':{
+            //         schema: schemaConstellations
+            //     }},
 
 
             plugins: {
