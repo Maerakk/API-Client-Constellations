@@ -43,6 +43,7 @@ const starDao = {
                 approvalDate : star2add.approvalDate
             }
         })
+        return new Star(star.id, star.designation, star.name, star.constellation, star.constellationCode, star.approvalDate)
     }
 
 };

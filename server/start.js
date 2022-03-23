@@ -31,14 +31,6 @@ console.log(__dirname)
         debug: true
     };
 
-    // const plugins = [
-    //     inert,
-    //     vision,
-    //     {
-    //         plugin: HapiSwagger,
-    //         options: swaggerOptions //https://github.com/glennjones/hapi-swagger/blob/HEAD/optionsreference.md
-    //     }
-    // ];
 
 server.route(routes);
 
