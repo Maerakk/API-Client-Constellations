@@ -1,7 +1,8 @@
 Vue.component('app', {
-    template: `<div  id="app"> 
-                    <div class="col s3 m7">
-                        <constellation v-for="constellation in constellations" v-bind:curConst="constellation"></constellation>
+    template: `<div  id="app">
+                        <div v-if="constellations.length" class="row">
+                            <constellation v-for="constellation in constellations" v-bind:curConst="constellation"></constellation>
+                        </div>
                     </div>
                 </div>`,
     data : function () {
@@ -12,14 +13,17 @@ Vue.component('app', {
     methods: {
         select : function(id){
             this.idSelected=id;
-        },
-        mounted : function(){
-            this.$nextTick(function () {
-                fetch("http://localhost:1234/constellations")
-                    .then(data => {
+        }
+    },
+    mounted(){
+        this.$nextTick(()=> {
+            fetch("http://localhost:1234/constellations")
+              .then(response => {
+                  response.json()
+                    .then(data=>{
                         this.constellations = data;
                     });
-            });
-        }
+              });
+        });
     }
 });
