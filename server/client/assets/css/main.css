@@ -86,10 +86,10 @@ html {
   }
 }
 
-.roundedCorner{
-border-radius:30% !important;
+.card-color{
+  background-color: #6680c4 !important;
+  color:#F5D44E !important;
 }
-
 
 
 /*# sourceMappingURL=main.css.map */
