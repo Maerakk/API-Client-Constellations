@@ -29,7 +29,7 @@ const constellationDao = {
             const stars = payload.stars;
             const constell = await prisma.constellation.create({
                 data: {
-                    // id: payload.id,
+                    // id: null,
                     latinName: payload.latinName,
                     frenchName: payload.frenchName,
                     englishName: payload.englishName,
@@ -47,9 +47,7 @@ const constellationDao = {
 
                 }
             })
-        }catch(e) {
-            console.log(e)
-        }
+
                 stars.forEach(curStar => {
                     prisma.constellation.findUnique({
                         where: {
@@ -66,7 +64,6 @@ const constellationDao = {
                                 approvalDate: curStar.approvalDate
                             }
                         }).then(createdStar => {
-                            console.log(createdStar)
                             prisma.constellation.update({
                                 where: {
                                     code: createdStar.constellationCode
@@ -84,10 +81,11 @@ const constellationDao = {
                         })
                     })
                 })
-
             // constell.id,
-            return new Constellation( constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, stars)
-
+            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, stars)
+        }catch(e) {
+            console.log(e)
+        }
 
 
 

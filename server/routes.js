@@ -137,7 +137,7 @@ module.exports = [
             handler: async (request, h)  => {
                 try {
                     const payload = {
-                        id: request.payload.id,
+                        // id: request.payload.id,
                         latinName: request.payload.latinName,
                         frenchName: request.payload.frenchName,
                         englishName: request.payload.englishName,

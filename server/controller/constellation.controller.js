@@ -12,17 +12,17 @@ const constellationController = {
     ,
     addConstellation : async (payload) => {
 
-        const constell = await constellationDao.findConstellationById(payload.id)
-        if (constell != null) {
-            throw new Error('already exists');
-        }
-        else {
+        // const constell = await constellationDao.findConstellationById(payload.id)
+        // if (constell != null) {
+        //     throw new Error('already exists');
+        // }
+        // else {
             try {
                 return await constellationDao.addConstellation(payload)
             }catch(e){
                 return e
             }
-        }
+        // }
     }
     ,
     deleteConstellationById : async (id) => {
