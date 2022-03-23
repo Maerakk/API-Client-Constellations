@@ -45,9 +45,11 @@ module.exports = [
     options: {
         handler:async (request, h) => {
 
-           return  h.response("hello").header('head','er')
-            // return 'hello'
+           // return  h.response("hello").header('head','er')
         },
+        tags: ['api'],
+        description: 'Page de garde',
+        notes: 'Renvoie bonjour de hapi',
         plugins: {
             'hapi-swagger': {
                 responses: {
@@ -56,10 +58,7 @@ module.exports = [
                     }
                 }
             }
-        },
-        tags: ['api'],
-        description: 'Page de garde',
-        notes: 'Renvoie bonjour de hapi'
+        }
     }},
 
     {
@@ -67,10 +66,11 @@ module.exports = [
     method: 'GET',
         options: {
             handler: (request, h) => {
-                return Boom.notFound('Ressource not found')
+                return Boom.notFound('Route not found')
             },
             tags: ['api'],
-            description: '404 page',
+            description: '404 Route Not Found',
+            notes: 'La route n\'existe pas, veuillez vous référencer à http://localhost:1234/documentation pour connaître les routes disponibles',
             plugins: {
                 'hapi-swagger': {
                     responses: {
@@ -87,20 +87,18 @@ module.exports = [
     path: '/constellations',
     method: 'GET',
     options: {
-        tags: ['api'],
-        description: 'Get all constellations',
         handler: async (request, h,res) => {
             const response = await constellationController.findAllConstellation()
-            return h.response(response).header("Access-Control-Allow-Origin","http://127.0.0.1");
+            // return h.response(response).header("Access-Control-Allow-Origin","http://127.0.0.1");
         },
-        notes: 'Renvoie un tableau de constellations',
+        tags: ['api'],
+        description: 'Récupérer toutes les constellations',
+        notes: 'Renvoie un tableau de toute les constellations',
         plugins: {
             'hapi-swagger': {
                 responses: {
                     '200': {
                         'description': 'Good'
-                        //schema : schemaConstellations.default(constellationController.findAllConstellation())
-
                     }
                 }
             }
@@ -113,12 +111,19 @@ module.exports = [
         method: 'GET',
         options: {
             handler: async (request, h) => {
-                const id = parseInt(request.params.id);
+                const id = request.params.id;
                 const response = await constellationController.findConstellationById(id)
                 return h.response(response).header("access-control-allow-origin","127.0.0.1");
             },
-            description: 'Get one constellation by its id',
+            description: 'Récupérer une constellation par son code',
+            notes: 'Renvoie une constellation sous forme de json. Utiliser le code de la constellation pour l\'id',
             tags: ['api'],
+            validate:
+                params: Joi.object({
+                        id: Joi.string()
+                    }),
+
+
             plugins: {
                 'hapi-swagger':{
                     responses: {
@@ -227,11 +232,31 @@ module.exports = [
         }
     },
     {
-        path: '/stars/add/{star}',
+        path: '/stars/add',
         method: 'POST',
-        handler: (request,h) => {
-            const star = request.params.star
-            return starsController.addStar(star);
+        handler: async (request,h) => {
+            try {
+                const payload = {
+                    id: request.payload.id,
+                    designation: request.payload.designation,
+                    name: request.payload.name,
+                    constellationCode: request.payload.constellationCode,
+                    approvalDate: request.payload.approvalDate
+                };
+                if (Object.values(payload).includes(undefined)) {
+                    return h.response({error: "request error"}).code(203);
+                } else {
+                    const response = await starsController.addStar(payload)
+                    if (response==null) {
+                        return h.response({error: "request error"}).code(203)
+                    }else {
+                        return h.response(response).header("access-control-allow-origin", "127.0.0.1").code(201);
+                    }
+                }
+            } catch(error) {
+                // return error
+                return h.response({error: error}).code(203)
+            }
         }
     },
     {
@@ -239,6 +264,7 @@ module.exports = [
         method: 'DELETE',
         handler: (request,h) => {
             const id = request.params.id;
+            console.log(request.params)
             return starsController.deleteStarById(id);
         }
     },

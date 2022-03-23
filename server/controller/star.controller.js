@@ -6,15 +6,23 @@ const starController = {
     }
     ,
     findStarById : async (id) => {
-        return await starDao.findStarById(id)
+        try {
+            return await starDao.findStarById(id)
+        }catch(e) {
+            console.log(e)
+        }
     }
     ,
-    addStar : async (star2add) => {
-        const star = await starDao.findStarById(star2add.id)
-        if (star != null) {
-            throw new Error('already exists');
+    addStar : async (payload) => {
+        try {
+            const star = await starDao.findStarById(payload.designation)
+            if (star != null) {
+                throw new Error('already exists');
+            }
+            return await starDao.addStar(payload)
+        }catch(e) {
+            console.log(e)
         }
-        return await starDao.addStar(star2add)
     }
     ,
     deleteStarById : async (id) => {
