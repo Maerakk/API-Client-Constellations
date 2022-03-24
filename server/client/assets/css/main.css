@@ -86,17 +86,10 @@ html {
   }
 }
 
-.roundedCorner{
-border-radius:30% !important;
+.card-color{
+  background-color: #6680c4 !important;
+  color:#F5D44E !important;
 }
 
-img:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    height: 50px;
-    width: 50px;
-    background-image: url("./assets/img/none.webp");
-}
 
 /*# sourceMappingURL=main.css.map */
