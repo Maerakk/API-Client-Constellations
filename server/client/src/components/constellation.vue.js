@@ -5,7 +5,9 @@ Vue.component('constellation', {
                         <div class="card card-color">
                             <div class="card-image hoverable waves-effect waves-block waves-light">
                                 <img class="activator"
-                                    :src="'https://naturenoon.com/wp-content/uploads/2021/07/'+(curConst.latinName).toLowerCase()+'_star_constellation-1-1024x820-1.png'">
+                                    :src="'https://naturenoon.com/wp-content/uploads/2021/07/'+(curConst.latinName).toLowerCase()+'_star_constellation-1-1024x820-1.png'"
+                                    onError="this.src='https://naturenoon.com/wp-content/uploads/2021/07/'+(curConst.latinName).toLowerCase()+'_star_constellation-1-1024x820-1.png';"
+                                    />
                             </div>
                             <div class="card-reveal card-color">
       

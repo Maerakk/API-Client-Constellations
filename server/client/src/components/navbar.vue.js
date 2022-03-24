@@ -1,4 +1,4 @@
-import StarGazer from "../StarGazer";
+import StarGazer from "../StarGazer.js";
 
 Vue.component('navbar', {
     template: `<!-- navbar -->
@@ -17,7 +17,7 @@ Vue.component('navbar', {
                                 <div style="max-height: 64px" >
                                     <div class="input-field black-text" style="width:100%;">
                                       <form v-on:submit.prevent=handleSubmit>
-                                        <i style="transform: translateY(-10%);" class="green-text material-icons prefix">search</i>
+                                        <i style="transform: translateY(-10%);" class="white-text material-icons prefix">search</i>
                                         <input id="autocomplete-query" type="text" class="blue-text">
                                       </form>
                                     </div>
@@ -45,17 +45,22 @@ Vue.component('navbar', {
         const datalist = []
         StarGazer.getAll()
             .then(data=>{
-                data.forEach( contell=>{
+                data.forEach(constell=>{
                     datalist.push([`${constell.code} ${constell.frenchName}`,null])
                 });
+                const doAuto = function(query){
+                    console.log(query)
+                }
+                const autocomplete = document.querySelector('#autocomplete-query');
+                const options ={
+                    minLength : 2,
+                    data : Object.fromEntries(datalist),
+                    sortFunction : (a,b) => a.localeCompare(b),
+                    onAutocomplete : doAuto
+                };
+                var instances = M.Autocomplete.init(autocomplete, options);
             });
-        const autocomplete = document.querySelector('#autocomplete-query');
-        const options ={
-            minLength : 2,
-            data : Object.fromEntries(datalist),
-            sortFunction : (a,b) => a.localeCompare(b),
-            onAutocomplete : showMeteo
 
-        };
+
     }
 })
