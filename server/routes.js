@@ -11,24 +11,25 @@ const prisma = new Prisma.PrismaClient();
 
 
 // Joi Objects
-const schemaConstellations = Joi.object({
-    id: Joi.number(),
-    latinName: Joi.string(),
-    frenchName : Joi.string(),
-    englishName : Joi.string(),
-    code: Joi.string(),
-    season: Joi.string(),
-    mainStar: Joi.string(),
-    celestialZone: Joi.string(),
-    exlipticZone: Joi.string(),
-    milkyWayZone: Joi.string(),
-    quad: Joi.string(),
-    origin: Joi.string(),
-    stars: Joi.string()
-}).label('Constellations');
-schemaConstellations.validate(constellationController.findConstellation);
+    const constellationsSchema = Joi.object({
+        id: Joi.number(),
+        latinName: Joi.string(),
+        frenchName: Joi.string(),
+        englishName: Joi.string(),
+        code: Joi.string(),
+        season: Joi.string(),
+        mainStar: Joi.string(),
+        celestialZone: Joi.string(),
+        exlipticZone: Joi.string(),
+        milkyWayZone: Joi.string(),
+        quad: Joi.string(),
+        origin: Joi.string(),
+        stars: Joi.string()
+    }).label("Constellations")
+    const constellationsArraySchema = Joi.array().items(constellationsSchema.label("Constellations")).label("ConstellationsArray");
+// schemaConstellations.validate(constellationController.findAllConstellation);
 
-const schemaStars = Joi.object({
+const starsSchema = Joi.object({
     id: Joi.string(),
     designation: Joi.string(),
     name: Joi.string(),
@@ -36,6 +37,7 @@ const schemaStars = Joi.object({
     constellationCode: Joi.string(),
     approuvalDate: Joi.string()
 }).label('Stars');
+const starsArraySchema = Joi.array().items(starsSchema.label("Stars")).label("StarsArray");
 
 
 module.exports = [
@@ -90,19 +92,32 @@ module.exports = [
     method: 'GET',
     options: {
         handler: async (request, h,res) => {
-            const response = await constellationController.findAllConstellation()
-            return h.response(response);
+            try {
+                const response = await constellationController.findAllConstellation()
+                return h.response(response);
+            }catch(e){
+                console.log(e)
+            }
             // return h.response(response).header("Access-Control-Allow-Origin","http://127.0.0.1");
         },
         tags: ['api'],
         description: 'Récupérer toutes les constellations',
         notes: 'Renvoie un tableau de toute les constellations',
+        response: {schema: constellationsArraySchema},
         plugins: {
             'hapi-swagger': {
                 responses: {
                     '200': {
                         'description': 'Good'
+                        // content: {
+                        //     'json':{
+                        //         schema: {
+                        //             schemaConstellations
+                        //         }
+                        //     }
+                        // }
                     }
+
                 }
             }
         }
@@ -125,10 +140,8 @@ module.exports = [
                 params: Joi.object({
                         id: Joi.string().min(3).max(3)
                     })},
-            // response: {
-            //     '200':{
-            //         schema: schemaConstellations
-            //     }},
+            response: {
+                    schema: constellationsSchema},
 
 
             plugins: {
@@ -136,7 +149,7 @@ module.exports = [
                     responses: {
                         '200':{
                             description: 'Constellation found',
-                            schema: schemaConstellations
+
                         }
                     }
                 }
@@ -183,6 +196,7 @@ module.exports = [
             },
             description: 'Add a constellation',
             tags: ['api'],
+            response: {schema: constellationsSchema},
             plugins: {
                 'hapi-swagger':{
                     responses: {
@@ -205,6 +219,7 @@ module.exports = [
             },
             description: 'Delete a constellation. Delete the stars too !',
             tags: ['api'],
+            response: {schema: constellationsSchema},
             plugins: {
                 'hapi-swagger':{
                     responses: {
@@ -220,6 +235,7 @@ module.exports = [
     {
         path: '/api/constellations/delete',
         method: 'DELETE',
+        response: {schema: constellationsArraySchema},
         handler: (request, h) => {
             return constellationController.deleteConstellations();
         }
