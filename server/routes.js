@@ -84,7 +84,7 @@ module.exports = [
             }
         }
 },
-
+//~~~~~~~~~~~~~~~~~~~~~~~CONSTELLATIONS~~~~~~~~~~~~~~~~~~~~~~~
 {
     path: '/api/constellations',
     method: 'GET',
@@ -224,6 +224,7 @@ module.exports = [
             return constellationController.deleteConstellations();
         }
     },
+//~~~~~~~~~~~~~~~~~~~~~~~STARS~~~~~~~~~~~~~~~~~~~~~~~
     {
         path: '/api/stars',
         method: 'GET',

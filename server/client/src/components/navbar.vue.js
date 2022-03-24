@@ -1,3 +1,5 @@
+import StarGazer from "../StarGazer";
+
 Vue.component('navbar', {
     template: `<!-- navbar -->
                 <nav class="blue-grey darken-4">
@@ -14,8 +16,10 @@ Vue.component('navbar', {
                             <li>
                                 <div style="max-height: 64px" >
                                     <div class="input-field black-text" style="width:100%;">
-                                      <i style="transform: translateY(-10%);" class="green-text material-icons prefix">search</i>
-                                      <input type="text" class="blue-text">
+                                      <form v-on:submit.prevent=handleSubmit>
+                                        <i style="transform: translateY(-10%);" class="green-text material-icons prefix">search</i>
+                                        <input id="autocomplete-query" type="text" class="blue-text">
+                                      </form>
                                     </div>
                                 </div>
                             </li>
@@ -26,13 +30,32 @@ Vue.component('navbar', {
                         </ul>
 
                     </div>
-                </nav>
-                
-               `,
+                </nav>`,
     data : function() {
         return {
-            //TODO
             query:""
         }},
-    methods: {}
+    methods: {
+        handleSubmit : function (){
+
+        }
+
+    },
+    mounted() {
+        const datalist = []
+        StarGazer.getAll()
+            .then(data=>{
+                data.forEach( contell=>{
+                    datalist.push([`${constell.code} ${constell.frenchName}`,null])
+                });
+            });
+        const autocomplete = document.querySelector('#autocomplete-query');
+        const options ={
+            minLength : 2,
+            data : Object.fromEntries(datalist),
+            sortFunction : (a,b) => a.localeCompare(b),
+            onAutocomplete : showMeteo
+
+        };
+    }
 })
