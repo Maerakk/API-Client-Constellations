@@ -2,6 +2,7 @@
 const swaggerSpec = require('./start');
 const constellationController = require('./controller/constellation.controller').constellationController;
 const starsController = require('./controller/star.controller').starController;
+const joiSchemas = require('./joiSchemas')
 const Joi = require('joi');
 const Boom = require('@hapi/boom');
 const Hapi = require('@hapi/hapi')
@@ -9,35 +10,10 @@ const Prisma = require('prisma/prisma-client');
 const Constellation = require("./model/constellation.model");
 const prisma = new Prisma.PrismaClient();
 
-
-// Joi Objects
-    const constellationsSchema = Joi.object({
-        id: Joi.number(),
-        latinName: Joi.string(),
-        frenchName: Joi.string(),
-        englishName: Joi.string(),
-        code: Joi.string(),
-        season: Joi.string(),
-        mainStar: Joi.string(),
-        celestialZone: Joi.string(),
-        exlipticZone: Joi.string(),
-        milkyWayZone: Joi.string(),
-        quad: Joi.string(),
-        origin: Joi.string(),
-        stars: Joi.string()
-    }).label("Constellations")
-    const constellationsArraySchema = Joi.array().items(constellationsSchema.label("Constellations")).label("ConstellationsArray");
+const constellationsArraySchema = Joi.array().items(joiSchemas.constellationsSchema.label("Constellations")).label("ConstellationsArray");
 // schemaConstellations.validate(constellationController.findAllConstellation);
 
-const starsSchema = Joi.object({
-    id: Joi.string(),
-    designation: Joi.string(),
-    name: Joi.string(),
-    constellation: Joi.object(),
-    constellationCode: Joi.string(),
-    approuvalDate: Joi.string()
-}).label('Stars');
-const starsArraySchema = Joi.array().items(starsSchema.label("Stars")).label("StarsArray");
+const starsArraySchema = Joi.array().items(joiSchemas.starsSchema.label("Stars")).label("StarsArray");
 
 
 module.exports = [
@@ -141,7 +117,7 @@ module.exports = [
                         id: Joi.string().min(3).max(3)
                     })},
             response: {
-                    schema: constellationsSchema},
+                    schema: joiSchemas.constellationsSchema},
 
 
             plugins: {
@@ -196,7 +172,7 @@ module.exports = [
             },
             description: 'Add a constellation',
             tags: ['api'],
-            response: {schema: constellationsSchema},
+            response: {schema: joiSchemas.constellationsSchema},
             plugins: {
                 'hapi-swagger':{
                     responses: {
@@ -219,7 +195,7 @@ module.exports = [
             },
             description: 'Delete a constellation. Delete the stars too !',
             tags: ['api'],
-            response: {schema: constellationsSchema},
+            response: {schema: joiSchemas.constellationsSchema},
             plugins: {
                 'hapi-swagger':{
                     responses: {
@@ -235,62 +211,134 @@ module.exports = [
     {
         path: '/api/constellations/delete',
         method: 'DELETE',
-        response: {schema: constellationsArraySchema},
-        handler: (request, h) => {
-            return constellationController.deleteConstellations();
+        options: {
+            handler: (request, h) => {
+                return constellationController.deleteConstellations();
+            },
+            description: 'Supprime toutes les constellations et les étoiles',
+            tags: ['api'],
+            response: {schema: constellationsArraySchema},
+            plugins: {
+                'hapi-swagger': {
+                    responses: {
+                        '200': {
+                            description: 'Les constellations ont bien été supprimées'
+                        }
+                    }
+                }
+            }
         }
     },
 //~~~~~~~~~~~~~~~~~~~~~~~STARS~~~~~~~~~~~~~~~~~~~~~~~
     {
         path: '/api/stars',
         method: 'GET',
-        handler: (request, h) => {
-            return starsController.findAllStars();
+        options: {
+            handler: (request, h) => {
+                return starsController.findAllStars();
+            },
+            description: 'Récupérer toutes les étoiles',
+            tags: ['api'],
+            response: {schema: starsArraySchema},
+            plugins: {
+                'hapi-swagger':{
+                    responses: {
+                        '200':{
+                            description: 'Les étoiles ont été récupérées'
+                        }
+                    }
+                }
+            }
         }
     },
     {
         path:'/api/stars/{id}',
         method: 'GET',
-        handler: (request,h)=>{
-            const id = request.params.id;
-            return starsController.findStarById(id);
+        options: {
+            handler: (request, h) => {
+                const id = request.params.id;
+                return starsController.findStarById(id);
+            },
+            description: 'Récupère une étoile',
+            notes: 'Récupère un tableau de données pour l\'étoile voulue. Choix de l\'étoile par sa désignation',
+            tags: ['api'],
+            response: {schema: joiSchemas.starsSchema},
+            plugins: {
+                'hapi-swagger':{
+                    responses: {
+                        '200':{
+                            description: 'Constellation deleted successfully'
+                        }
+                    }
+                }
+            }
         }
     },
     {
         path: '/api/stars/add',
         method: 'POST',
-        handler: async (request,h) => {
-            try {
-                const payload = {
-                    id: request.payload.id,
-                    designation: request.payload.designation,
-                    name: request.payload.name,
-                    constellationCode: request.payload.constellationCode,
-                    approvalDate: request.payload.approvalDate
-                };
-                if (Object.values(payload).includes(undefined)) {
-                    return h.response({error: "request error"}).code(203);
-                } else {
-                    const response = await starsController.addStar(payload)
-                    if (response==null) {
-                        return h.response({error: "request error"}).code(203)
-                    }else {
-                        return h.response(response).header("access-control-allow-origin", "127.0.0.1").code(201);
+        options: {
+            handler: async (request, h) => {
+                try {
+                    const payload = {
+                        id: request.payload.id,
+                        designation: request.payload.designation,
+                        name: request.payload.name,
+                        constellationCode: request.payload.constellationCode,
+                        approvalDate: request.payload.approvalDate
+                    };
+                    if (Object.values(payload).includes(undefined)) {
+                        return h.response({error: "request error"}).code(203);
+                    } else {
+                        const response = await starsController.addStar(payload)
+                        if (response == null) {
+                            return h.response({error: "request error"}).code(203)
+                        } else {
+                            return h.response(response).header("access-control-allow-origin", "127.0.0.1").code(201);
+                        }
+                    }
+                } catch (error) {
+                    // return error
+                    return h.response({error: error}).code(203)
+                }
+            },
+            description: 'Ajouter une étoile',
+            notes: 'Permet d\'ajouter une étoile',
+            tags: ['api'],
+            response: {schema: joiSchemas.starsSchema},
+            plugins: {
+                'hapi-swagger':{
+                    responses: {
+                        '200':{
+                            description: 'L\'étoile a été ajoutée'
+                        }
                     }
                 }
-            } catch(error) {
-                // return error
-                return h.response({error: error}).code(203)
             }
         }
     },
     {
         path: '/api/stars/delete/{id}',
         method: 'DELETE',
-        handler: (request,h) => {
-            const id = request.params.id;
-            console.log(request.params)
-            return starsController.deleteStarById(id);
+        options: {
+            handler: (request, h) => {
+                const id = request.params.id;
+                console.log(request.params)
+                return starsController.deleteStarById(id);
+            },
+            description: 'Supprimer une étoile',
+            notes: 'Permet de supprimer une étoile',
+            tags: ['api'],
+            response: {schema: joiSchemas.starsSchema},
+            plugins: {
+                'hapi-swagger':{
+                    responses: {
+                        '200':{
+                            description: 'L\'étoile a été supprimée'
+                        }
+                    }
+                }
+            }
         }
     },
     {
