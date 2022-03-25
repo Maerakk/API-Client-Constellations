@@ -55,7 +55,7 @@ start = async () => {
         server.route([{
             //index.html
             method: 'GET',
-            path: '/starFinder/{param*}',
+            path: '/{param*}',
             handler: {
                 directory: {
                     path: './',

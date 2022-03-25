@@ -1,4 +1,4 @@
-import StarGazer from "../StarGazer";
+import StarGazer from "../StarGazer.js";
 
 Vue.component('app', {
     template: `<div id="app">
