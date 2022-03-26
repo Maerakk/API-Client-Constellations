@@ -28,7 +28,9 @@ console.log(__dirname)
             title: 'Constellations API Documentation',
             version: '0.0.1'
         },
-        debug: true
+        debug: true,
+
+        basePath: '/api'
     };
 
 
