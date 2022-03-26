@@ -13,7 +13,6 @@ const prisma = new Prisma.PrismaClient();
 const constellationsArraySchema = Joi.array().items(joiSchemas.constellationsSchema.label("Constellations")).label("ConstellationsArray");
 // schemaConstellations.validate(constellationController.findAllConstellation);
 
-const starsArraySchema = Joi.array().items(joiSchemas.starsSchema.label("Stars")).label("StarsArray");
 const responseModel = Joi.object({
     equals: Joi.number()
 }).label('Result');
@@ -165,6 +164,9 @@ try {
 
                 },
                 description: 'Add a constellation',
+                validate: {
+                    payload: joiSchemas.constellationsSchema
+                },
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
@@ -189,6 +191,11 @@ try {
                 },
                 description: 'Delete a constellation. Delete the stars too !',
                 tags: ['api'],
+                validate: {
+                    params: Joi.object({
+                        id: Joi.string().min(3).max(3)
+                    })
+                },
                 plugins: {
                     'hapi-swagger': {
                         responses: {
@@ -238,7 +245,7 @@ try {
                         responses: {
                             '200': {
                                 description: 'Les étoiles ont été récupérées',
-                                schema: starsArraySchema
+                                schema: joiSchemas.starsArraySchema
                             }
                         }
                     }
@@ -256,6 +263,11 @@ try {
                 description: 'Récupère une étoile',
                 notes: 'Récupère un tableau de données pour l\'étoile voulue. Choix de l\'étoile par sa désignation',
                 tags: ['api'],
+                validate: {
+                    params: Joi.object({
+                        id: Joi.string()
+                    })
+                },
                 plugins: {
                     'hapi-swagger': {
                         responses: {
@@ -298,6 +310,9 @@ try {
                 },
                 description: 'Ajouter une étoile',
                 notes: 'Permet d\'ajouter une étoile',
+                validate: {
+                    payload: joiSchemas.starsSchema
+                },
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
@@ -323,6 +338,11 @@ try {
                 description: 'Supprimer une étoile',
                 notes: 'Permet de supprimer une étoile',
                 tags: ['api'],
+                validate: {
+                    params: Joi.object({
+                        id: Joi.string()
+                    })
+                },
                 plugins: {
                     'hapi-swagger': {
                         responses: {
