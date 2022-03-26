@@ -54,7 +54,7 @@ start = async () => {
         ]);
 
         // route pour le client
-        /*server.route([{
+        server.route([{
             //index.html
             method: 'GET',
             path: '/{param*}',
@@ -87,7 +87,7 @@ start = async () => {
                     }
                 }
             }
-        ]);*/
+        ]);
 
 
     await server.start();

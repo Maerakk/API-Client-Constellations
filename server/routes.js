@@ -16,7 +16,7 @@ const constellationsArraySchema = Joi.array().items(joiSchemas.constellationsSch
 const starsArraySchema = Joi.array().items(joiSchemas.starsSchema.label("Stars")).label("StarsArray");
 
 
-module.exports = [
+module.exports = [/*
 {
     method: 'GET',
     path: '/',
@@ -39,8 +39,8 @@ module.exports = [
                 }
             }
         }
-    }},
-
+    }},*/
+/*
     {
     path: '/{any*}',
     method: 'GET',
@@ -61,7 +61,7 @@ module.exports = [
                 }
             }
         }
-},
+},*/
 //~~~~~~~~~~~~~~~~~~~~~~~CONSTELLATIONS~~~~~~~~~~~~~~~~~~~~~~~
 {
     path: '/constellations',
