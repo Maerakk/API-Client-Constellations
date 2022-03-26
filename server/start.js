@@ -29,8 +29,8 @@ console.log(__dirname)
             version: '0.0.1'
         },
         debug: true,
-
-        basePath: '/api'
+        basePath: '/api',
+        pathPrefixSize: 2
     };
 
 
@@ -49,7 +49,7 @@ start = async () => {
             vision,
             {
                 plugin: HapiSwagger,
-                options: swaggerOptions,
+                options: swaggerOptions
             }
         ]);
 
