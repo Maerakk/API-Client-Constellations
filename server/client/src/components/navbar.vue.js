@@ -18,7 +18,7 @@ Vue.component('navbar', {
                                     <div class="input-field black-text" style="width:100%;">
                                       <form v-on:submit.prevent=handleSubmit>
                                         <i style="transform: translateY(-10%);" class="white-text material-icons prefix">search</i>
-                                        <input id="autocomplete-query" type="text" class="blue-text">
+                                        <input v-model="query" id="autocomplete-query" type="text" class="blue-text" placeholder="search" v-on:keyup="handleChange">
                                       </form>
                                     </div>
                                 </div>
@@ -36,8 +36,17 @@ Vue.component('navbar', {
             query:""
         }},
     methods: {
-        handleSubmit : function (){
-
+        handleSubmit : function (event){
+            console.log(event)
+        },
+        handleChange : function (event){
+            StarGazer.ConstellBySearch(this.query)
+                .then(data=>{
+                    this.$emit('sendSearch',data);
+                })
+                .catch(error=>{
+                    console.log(error)
+                })
         }
 
     },

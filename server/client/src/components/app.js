@@ -2,7 +2,7 @@ import StarGazer from "../StarGazer.js";
 
 Vue.component('app', {
     template: `<div id="app">
-                    <navbar></navbar>
+                    <navbar v-on:sendSearch="changeConstell"></navbar>
                     <div class="container">
                       <div class="col-12"></div>
                         <div v-if="constellations.length" class="row">
@@ -18,12 +18,17 @@ Vue.component('app', {
     methods: {
         select : function(id){
             this.idSelected=id;
+        },
+        changeConstell : function(newConstell){
+            console.log(newConstell)
+            this.constellations=newConstell
         }
     },
     mounted(){
         this.$nextTick(()=> {
             StarGazer.getAll()
                 .then(data=>{
+                    console.log(data)
                     this.constellations=data;
                 })
                 .catch(error=>{
