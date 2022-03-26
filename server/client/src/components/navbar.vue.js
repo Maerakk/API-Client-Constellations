@@ -36,10 +36,10 @@ Vue.component('navbar', {
             query:""
         }},
     methods: {
-        handleSubmit : function (query){
-            this.$emit('sendSearch',query);
+        handleSubmit : function (event){
+            this.$emit('sendSearch',this.query);
         },
-        handleChange : function (event){
+        handleChange : function (query){
             this.$emit('sendSearch',this.query)
         },
         switchEtoile : function(event){
