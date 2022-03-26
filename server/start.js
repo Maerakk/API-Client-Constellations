@@ -28,7 +28,9 @@ console.log(__dirname)
             title: 'Constellations API Documentation',
             version: '0.0.1'
         },
-        debug: true
+        debug: true,
+
+        basePath: '/api'
     };
 
 
@@ -52,7 +54,7 @@ start = async () => {
         ]);
 
         // route pour le client
-        server.route([{
+        /*server.route([{
             //index.html
             method: 'GET',
             path: '/{param*}',
@@ -85,7 +87,7 @@ start = async () => {
                     }
                 }
             }
-        ]);
+        ]);*/
 
 
     await server.start();

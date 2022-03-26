@@ -19,7 +19,7 @@ const starsArraySchema = Joi.array().items(joiSchemas.starsSchema.label("Stars")
 module.exports = [
 {
     method: 'GET',
-    path: '/api',
+    path: '/',
     options: {
         handler:async (request, h) => {
             const response = "Bonjour ! Bienvenue sur notre api de Constellations.\n" +
@@ -42,7 +42,7 @@ module.exports = [
     }},
 
     {
-    path: '/api/{any*}',
+    path: '/{any*}',
     method: 'GET',
         options: {
             handler: (request, h) => {
@@ -64,7 +64,7 @@ module.exports = [
 },
 //~~~~~~~~~~~~~~~~~~~~~~~CONSTELLATIONS~~~~~~~~~~~~~~~~~~~~~~~
 {
-    path: '/api/constellations',
+    path: '/constellations',
     method: 'GET',
     options: {
         handler: async (request, h,res) => {
@@ -101,7 +101,7 @@ module.exports = [
 },
 
     {
-        path: '/api/constellations/{id}',
+        path: '/constellations/{id}',
         method: 'GET',
         options: {
             handler: async (request, h) => {
@@ -133,7 +133,7 @@ module.exports = [
         }
     },
     {
-        path: '/api/constellations/add',
+        path: '/constellations/add',
         method: 'POST',
         options: {
             handler: async (request, h)  => {
@@ -185,7 +185,7 @@ module.exports = [
         }
     },
     {
-        path: '/api/constellations/delete/{id}',
+        path: '/constellations/delete/{id}',
         method: 'DELETE',
         options: {
 
@@ -209,7 +209,7 @@ module.exports = [
     }
     ,
     {
-        path: '/api/constellations/delete',
+        path: '/constellations/delete',
         method: 'DELETE',
         options: {
             handler: (request, h) => {
@@ -231,7 +231,7 @@ module.exports = [
     },
 //~~~~~~~~~~~~~~~~~~~~~~~STARS~~~~~~~~~~~~~~~~~~~~~~~
     {
-        path: '/api/stars',
+        path: '/stars',
         method: 'GET',
         options: {
             handler: (request, h) => {
@@ -252,7 +252,7 @@ module.exports = [
         }
     },
     {
-        path:'/api/stars/{id}',
+        path:'/stars/{id}',
         method: 'GET',
         options: {
             handler: (request, h) => {
@@ -275,7 +275,7 @@ module.exports = [
         }
     },
     {
-        path: '/api/stars/add',
+        path: '/stars/add',
         method: 'POST',
         options: {
             handler: async (request, h) => {
@@ -318,7 +318,7 @@ module.exports = [
         }
     },
     {
-        path: '/api/stars/delete/{id}',
+        path: '/stars/delete/{id}',
         method: 'DELETE',
         options: {
             handler: (request, h) => {
@@ -342,7 +342,7 @@ module.exports = [
         }
     },
     {
-        path: '/api/teapot',
+        path: '/teapot',
         method: 'GET',
         options: {
             handler: (request,h) => {return Boom.teapot()},
