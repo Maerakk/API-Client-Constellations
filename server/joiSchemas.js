@@ -8,6 +8,7 @@ const starsSchema = Joi.object({
     constellationCode: Joi.string(),
     approuvalDate: Joi.string()
 }).label('Stars');
+const starsArraySchema = Joi.array().items(starsSchema.label("Stars")).label("StarsArray");
 const constellationsSchema = Joi.object({
     id: Joi.number(),
     latinName: Joi.string(),
@@ -21,6 +22,6 @@ const constellationsSchema = Joi.object({
     milkyWayZone: Joi.string(),
     quad: Joi.string(),
     origin: Joi.string(),
-    stars: starsSchema
+    stars: starsArraySchema
 }).label("Constellations")
-module.exports = {constellationsSchema, starsSchema}
+module.exports = {constellationsSchema, starsSchema, starsArraySchema}
