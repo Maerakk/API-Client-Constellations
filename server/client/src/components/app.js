@@ -19,16 +19,18 @@ Vue.component('app', {
         select : function(id){
             this.idSelected=id;
         },
-        changeConstell : function(newConstell){
-            console.log(newConstell)
-            this.constellations=newConstell
+        changeConstell : function(query){
+            if(query === )
+            this.constellations = this.constellations.filter(item=>
+                                                            item.frenchName.toLowerCase().includes(query.toLowerCase())
+                                                            || item.code.toLowerCase().includes(query.toLowerCase())
+                                                            || (item.code.toLowerCase()+" "+item.frenchName.toLowerCase()).includes(query.toLowerCase()))
         }
     },
     mounted(){
         this.$nextTick(()=> {
             StarGazer.getAll()
                 .then(data=>{
-                    console.log(data)
                     this.constellations=data;
                 })
                 .catch(error=>{

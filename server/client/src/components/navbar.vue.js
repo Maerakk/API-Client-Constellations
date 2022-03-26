@@ -3,7 +3,7 @@ import StarGazer from "../StarGazer.js";
 Vue.component('navbar', {
     template: `<!-- navbar -->
                 <nav class="blue-grey darken-4">
-                    <div class="nav-wrapper">
+                    <div class="nav-wrapper" style="padding-left: 3%; padding-right: 2%">
                         <!-- Logo -->
                         <a href="#!" class="brand-logo">Logo</a>
                         <a href="#" data-target="mobile-demo" class="sidenav-trigger">
@@ -23,10 +23,10 @@ Vue.component('navbar', {
                                     </div>
                                 </div>
                             </li>
-                            <li><a href="sass.html">Sass</a></li>
-                            <li><a href="badges.html">Components</a></li>
-                            <li><a href="collapsible.html">Javascript</a></li>
-                            <li><a href="mobile.html">Mobile</a></li>
+                            <li><a href="#" v-on:click="switchEtoile">Étoiles</a></li>
+                            <li><a href="">Constellation</a></li>
+                            <li><a href="api">API</a></li>
+                            <li><a href="documentation">Docs</a></li>
                         </ul>
 
                     </div>
@@ -36,40 +36,33 @@ Vue.component('navbar', {
             query:""
         }},
     methods: {
-        handleSubmit : function (event){
-            console.log(event)
+        handleSubmit : function (query){
+            this.$emit('sendSearch',query);
         },
         handleChange : function (event){
-            StarGazer.ConstellBySearch(this.query)
-                .then(data=>{
-                    this.$emit('sendSearch',data);
-                })
-                .catch(error=>{
-                    console.log(error)
-                })
+            this.$emit('sendSearch',this.query)
+        },
+        switchEtoile : function(event){
+
         }
 
     },
-    mounted() {
+    mounted(){
         const datalist = []
         StarGazer.getAll()
             .then(data=>{
                 data.forEach(constell=>{
                     datalist.push([`${constell.code} ${constell.frenchName}`,null])
                 });
-                const doAuto = function(query){
-                    console.log(query)
-                }
+
                 const autocomplete = document.querySelector('#autocomplete-query');
                 const options ={
                     minLength : 2,
                     data : Object.fromEntries(datalist),
                     sortFunction : (a,b) => a.localeCompare(b),
-                    onAutocomplete : doAuto
+                    onAutocomplete : this.handleSubmit
                 };
                 var instances = M.Autocomplete.init(autocomplete, options);
             });
-
-
     }
 })
