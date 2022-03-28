@@ -31,7 +31,7 @@ Vue.component('constellation', {
                             <!-- bouton favoris -->                          
                             <a v-on:click.stop="modifyFav" class="btn-floating halfway-fab waves-effect waves-light blue-grey darken-4" style="transform: translateY(-60%) translateX(+50%);">
                               <i v-if="isFaved" class="material-icons">favorite</i>
-                              <i v-else class="material-icons black-text">star</i>
+                              <i v-else class="material-icons black-text">favorite</i>
                             </a>
                         </div>
                         
@@ -64,8 +64,11 @@ Vue.component('constellation', {
         },
         modifyFav(event){
             this.isFaved = !this.isFaved;
-            this.$emit('modifyFav',this.curConst.code,this.isFaved);
+            this.$emit('modifyFav',this.curConst.id,this.isFaved);
         }
 
+    },
+    mounted() {
+        console.log(this.baseFav)
     }
 })
