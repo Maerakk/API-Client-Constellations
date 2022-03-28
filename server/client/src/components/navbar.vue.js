@@ -36,11 +36,14 @@ Vue.component('navbar', {
             query:""
         }},
     methods: {
-        handleSubmit : function (query){
-            this.$emit('sendSearch',query);
+        handleSubmit : function (event){
+            this.$emit('sendSearch',this.query);
         },
-        handleChange : function (event){
-            this.$emit('sendSearch',this.query)
+        handleChange : function (query){
+            this.$emit('sendSearch',query)
+        },
+        handleAutoComplete: function (query){
+            this.$emit('sendSearch',query)
         },
         switchEtoile : function(event){
 
@@ -49,7 +52,7 @@ Vue.component('navbar', {
     },
     mounted(){
         const datalist = []
-        StarGazer.getAll()
+        StarGazer.getAllConstellation()
             .then(data=>{
                 data.forEach(constell=>{
                     datalist.push([`${constell.code} ${constell.frenchName}`,null])
@@ -60,7 +63,7 @@ Vue.component('navbar', {
                     minLength : 2,
                     data : Object.fromEntries(datalist),
                     sortFunction : (a,b) => a.localeCompare(b),
-                    onAutocomplete : this.handleSubmit
+                    onAutocomplete : this.handleAutoComplete
                 };
                 var instances = M.Autocomplete.init(autocomplete, options);
             });
