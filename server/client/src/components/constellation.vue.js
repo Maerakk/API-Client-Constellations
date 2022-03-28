@@ -1,4 +1,6 @@
 Vue.component('constellation', {
+    props: ["curConst"],
+
     template: `<div class="divImage ">
                     <div class="card card-color">
                         <div class="card-image hoverable waves-effect waves-block waves-light">
@@ -30,11 +32,13 @@ Vue.component('constellation', {
                         </a>
                     </div>
                 </div>`,
-    props: ["curConst"],
-    data : {},
+
+    data : function (){
+        return {}
+    },
+
     methods: {
         setAltImage(event){
-            //this.src='https://naturenoon.com/wp-content/uploads/2021/07/'+(curConst.latinName).toLowerCase()+'_star_constellation-1024x820-1.png';
             if(event.target.src !== 'https://naturenoon.com/wp-content/uploads/2021/07/'+(this.curConst.latinName).toLowerCase().replace(' ','_')+'_star_constellation-1024x820-1.png'){
                 event.target.src='https://naturenoon.com/wp-content/uploads/2021/07/'+(this.curConst.latinName).toLowerCase().replace(' ','_')+'_star_constellation-1024x820-1.png';
             }
