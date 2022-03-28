@@ -11,10 +11,8 @@ Vue.component('app', {
                     <div v-else>
                         <div class="row">
                           <constellation class="col s12 m12 l4"  v-bind:curConst="constellations.filter(item=>item.id === constellSelected.id)[0]" :key="constellSelected.id"></constellation>
-                          bonjour
-                          <div class="carousel">
-                            <star class="col s12 m12 l4" v-bind:star="star" :key="star.id" v-for="star in constellSelected.stars">
-                            </star>
+                          <div class="carousel col s12 m12 l4">  
+                          <star v-bind:star="star" :key="star.id" v-for="star in shown"></star>
                           </div>
                         </div>
                     </div>
@@ -37,6 +35,13 @@ Vue.component('app', {
                 // console.log(this.constellSelected.code)
                 return item.constellationCode === this.constellSelected.code
             })
+            // console.log(this.constellSelected)
+            // this.$nextTick(()=> {
+            //     document.addEventListener('DOMContentLoaded', function () {
+            //         let elems = document.querySelectorAll('.carousel');
+            //         let instances = M.Carousel.init(elems);
+            //     });
+            // })
 
         },
 
@@ -59,20 +64,25 @@ Vue.component('app', {
     },
 
     // Methode automatiquement appelée par Vue.js lors de la création de l'instance
-    mounted(){
-        this.$nextTick(()=> {
+    mounted() {
+        this.$nextTick(() => {
             StarGazer.getAllConstellation()
-                .then(data=>{
-                    this.constellations=data;
+                .then(data => {
+                    this.constellations = data;
                     this.shown = this.constellations
                 })
-                .catch(error=>{
+                .catch(error => {
                     console.log(error)
                 });
             StarGazer.getAllStars()
-                .then(data=>{
+                .then(data => {
                     this.stars = data;
                 })
+
         });
+    },
+    updated() {
+            let elems = document.querySelectorAll('.carousel');
+            let instances = M.Carousel.init(elems);
     }
 });
