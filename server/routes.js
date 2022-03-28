@@ -1,5 +1,4 @@
-'usestrict';
-const swaggerSpec = require('./start');
+'use strict';
 const constellationController = require('./controller/constellation.controller').constellationController;
 const starsController = require('./controller/star.controller').starController;
 const joiSchemas = require('./joiSchemas')
@@ -150,6 +149,61 @@ try {
                             return h.response({error: "request error"}).code(203);
                         } else {
                             const response = await constellationController.addConstellation(payload)
+                            if (response == null) {
+                                return h.response({error: "request error"}).code(203)
+                            } else {
+                                return h.response(response).header("access-control-allow-origin", "127.0.0.1").code(201);
+                            }
+                        }
+                    } catch (error) {
+                        // return error
+                        return h.response({error: error}).code(203)
+                    }
+
+
+                },
+                description: 'Add a constellation',
+                validate: {
+                    payload: joiSchemas.constellationsSchema
+                },
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                description: 'Constellation added successfully',
+                                schema: joiSchemas.constellationsSchema
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            path: '/api/constellations/update',
+            method: 'PUT',
+            options: {
+                handler: async (request, h) => {
+                    try {
+                        const payload = {
+                            // id: request.payload.id,
+                            latinName: request.payload.latinName,
+                            frenchName: request.payload.frenchName,
+                            englishName: request.payload.englishName,
+                            code: request.payload.code,
+                            season: request.payload.season,
+                            mainStar: request.payload.mainStar,
+                            celestialZone: request.payload.celestialZone,
+                            eclipticZone: request.payload.eclipticZone,
+                            milkyWayZone: request.payload.milkyWayZone,
+                            quad: request.payload.quad,
+                            origin: request.payload.origin,
+                            stars: request.payload.stars
+                        };
+                        if (Object.values(payload).includes(undefined)) {
+                            return h.response({error: "request error"}).code(203);
+                        } else {
+                            const response = await constellationController.updateConstellation(payload)
                             if (response == null) {
                                 return h.response({error: "request error"}).code(203)
                             } else {

@@ -23,6 +23,13 @@ const constellationController = {
                 return e
             }
         // }
+    },
+    updateConstellation: async (payload) => {
+        try {
+            return await constellationDao.updateConstellation(payload)
+        } catch (e) {
+            return e
+        }
     }
     ,
     deleteConstellationById : async (id) => {

@@ -5,9 +5,8 @@
   "main": "start.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server/start.js",
-    "client": "cd .\\client\\ && live-server",
-    "test-rest": "lab server/test --coverage"
+    "dev": "nodemon server/serverStart.js",
+    "test-rest": "lab ./server/test --coverage -I 'NOT_PRISMA_DATA_PROXY,__core-js_shared__,CSS,regeneratorRuntime,core,Symbol(__RESOLVED_TEMP_DIRECTORY__)'"
   },
   "repository": {
     "type": "git",
