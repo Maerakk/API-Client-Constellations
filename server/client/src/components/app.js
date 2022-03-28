@@ -5,7 +5,14 @@ Vue.component('app', {
                     <navbar v-on:sendSearch="changeConstell"></navbar>
                     <div v-if="constellSelected === null" class="container">
                         <div class="row">
-                            <constellation v-on:constellClick="select" class="col s12 m12 l4" v-for="constellation in shown" v-bind:curConst="constellation" :key="constellation.id"></constellation>
+                            <constellation 
+                                v-on:constellClick="select" :modifyFav="storeFav" 
+                                class="col s12 m12 l4" 
+                                v-for="constellation in shown" 
+                                v-bind:curConst="constellation" :key="constellation.id" :base-fav="true"
+                            >
+                              
+                            </constellation>
                         </div>
                     </div>
                     <div v-else>
@@ -23,6 +30,7 @@ Vue.component('app', {
             constellations: [],
             stars: [],
             shown: [],
+            favConst: [],
             constellSelected: null
         }},
 
@@ -31,17 +39,8 @@ Vue.component('app', {
         select : function(name){
             this.constellSelected = this.constellations.filter(item =>  item.frenchName.toLowerCase() === name.toLowerCase())[0]
             this.shown = this.stars.filter(item => {
-                // console.log(item.constellationCode)
-                // console.log(this.constellSelected.code)
                 return item.constellationCode === this.constellSelected.code
             })
-            // console.log(this.constellSelected)
-            // this.$nextTick(()=> {
-            //     document.addEventListener('DOMContentLoaded', function () {
-            //         let elems = document.querySelectorAll('.carousel');
-            //         let instances = M.Carousel.init(elems);
-            //     });
-            // })
 
         },
 
@@ -60,6 +59,15 @@ Vue.component('app', {
             }else{
                 this.constellSelected = null
             }
+        },
+        storeFav : function (code, isFav) {
+            if(isFav) {
+                this.favConst.push(code)
+                localStorage.setItem('favConst', JSON.stringify(this.favConst))
+            }else{
+                this.favConst = this.favConst.filter(item => item !== code)
+                localStorage.setItem('favConst', JSON.stringify(this.favConst))
+            }
         }
     },
 
@@ -70,6 +78,7 @@ Vue.component('app', {
                 .then(data => {
                     this.constellations = data;
                     this.shown = this.constellations
+                    console.log(this.shown)
                 })
                 .catch(error => {
                     console.log(error)
@@ -77,8 +86,11 @@ Vue.component('app', {
             StarGazer.getAllStars()
                 .then(data => {
                     this.stars = data;
-                })
-
+                });
+            if(localStorage.getItem('favConst')){
+                console.log("aaa")
+                this.favConst = JSON.parse(localStorage.getItem('favConst'))
+            }
         });
     },
     updated() {

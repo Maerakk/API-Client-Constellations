@@ -5,7 +5,7 @@ Vue.component('navbar', {
                 <nav class="blue-grey darken-4">
                     <div class="nav-wrapper" style="padding-left: 3%; padding-right: 2%">
                         <!-- Logo -->
-                        <a href="#!" class="brand-logo">Logo</a>
+                      <a href="" class="brand-logo"><i class="material-icons">home</i></a>
                         <a href="#" data-target="mobile-demo" class="sidenav-trigger">
                           <i class="material-icons">menu</i>
                         </a>
@@ -65,7 +65,7 @@ Vue.component('navbar', {
                     sortFunction : (a,b) => a.localeCompare(b),
                     onAutocomplete : this.handleAutoComplete
                 };
-                var instances = M.Autocomplete.init(autocomplete, options);
+                const instances = M.Autocomplete.init(autocomplete, options);
             });
     }
 })
