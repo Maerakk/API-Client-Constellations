@@ -10,7 +10,12 @@ Vue.component('app', {
                     </div>
                     <div v-else>
                         <div class="row">
-                            <constellation class="col s12 m12 l4"  v-bind:curConst="constellations.filter(item=>item.id === constellSelected.id)[0]" :key="constellSelected.id"></constellation>
+                          <constellation class="col s12 m12 l4"  v-bind:curConst="constellations.filter(item=>item.id === constellSelected.id)[0]" :key="constellSelected.id"></constellation>
+                          bonjour
+                          <div class="carousel">
+                            <star class="col s12 m12 l4" v-bind:star="star" :key="star.id" v-for="star in constellSelected.stars">
+                            </star>
+                          </div>
                         </div>
                     </div>
                 </div>`,
@@ -28,8 +33,8 @@ Vue.component('app', {
         select : function(name){
             this.constellSelected = this.constellations.filter(item =>  item.frenchName.toLowerCase() === name.toLowerCase())[0]
             this.shown = this.stars.filter(item => {
-                console.log(item.constellationCode)
-                console.log(this.constellSelected.code)
+                // console.log(item.constellationCode)
+                // console.log(this.constellSelected.code)
                 return item.constellationCode === this.constellSelected.code
             })
 
@@ -53,6 +58,7 @@ Vue.component('app', {
         }
     },
 
+    // Methode automatiquement appelée par Vue.js lors de la création de l'instance
     mounted(){
         this.$nextTick(()=> {
             StarGazer.getAllConstellation()
