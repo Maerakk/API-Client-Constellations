@@ -4,14 +4,14 @@ Vue.component('app', {
     template: ` <div id="app">
                     <navbar v-on:sendSearch="changeConstell"></navbar>
                     <div v-if="constellSelected === null" class="container">
-                        <div class="row">
+                        <div class="row ">
                             <constellation v-on:constellClick="select" class="col s12 m12 l4" v-for="constellation in shown" v-bind:curConst="constellation" :key="constellation.id"></constellation>
                         </div>
                     </div>
                     <div v-else>
-                        <div class="row">
-                          <constellation class="col s12 m12 l4"  v-bind:curConst="constellations.filter(item=>item.id === constellSelected.id)[0]" :key="constellSelected.id"></constellation>
-                          <div class="carousel col s12 m12 l4">  
+                        <div class="row constellationsAlone">
+                          <constellation class="constellationsAlone col s12 m8 offset-m2 l6 offset-l3   "  v-bind:curConst="constellations.filter(item=>item.id === constellSelected.id)[0]" :key="constellSelected.id"></constellation>
+                          <div class="carousel col s12 m12 l8 " style="width:100%">  
                           <star v-bind:star="star" :key="star.id" v-for="star in shown"></star>
                           </div>
                         </div>
@@ -82,7 +82,12 @@ Vue.component('app', {
         });
     },
     updated() {
+            let options = {
+                fullWidth: true,
+                numVisible: 3,
+                indicators: true
+            }
             let elems = document.querySelectorAll('.carousel');
-            let instances = M.Carousel.init(elems);
+            let instances = M.Carousel.init(elems, options);
     }
 });

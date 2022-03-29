@@ -23,7 +23,7 @@ Vue.component('navbar', {
                                     </div>
                                 </div>
                             </li>
-                            <li><a href="#" v-on:click="switchEtoile">Étoiles</a></li>
+                            <li><a href="etoiles">Étoiles</a></li>
                             <li><a href="">Constellation</a></li>
                             <li><a href="api">API</a></li>
                             <li><a href="documentation">Docs</a></li>
@@ -44,9 +44,6 @@ Vue.component('navbar', {
         },
         handleAutoComplete: function (query){
             this.$emit('sendSearch',query)
-        },
-        switchEtoile : function(event){
-
         }
 
     },

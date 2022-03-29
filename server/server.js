@@ -61,6 +61,13 @@ exports.start = async () => {
             }
         }
     },
+        {
+            method: 'GET',
+            path: '/etoiles/{params*}',
+            handler: {
+                file: './etoiles.html'
+            }
+        },
         //src
         {
             method: 'GET',

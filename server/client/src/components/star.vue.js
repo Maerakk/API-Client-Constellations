@@ -3,16 +3,16 @@ Vue.component('star', {
     template: `
       <div  id="star" class="star">
           <div class="carousel-item">
-            <div class="row">
-              <div class="col s12 m8 l8">
-                <div class="card blue-grey darken-1">
-                  <div class="card-content white-text">
-                    <span class="card-title">Card Title</span>
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                      I am convenient because I require little markup to use effectively.</p>
+                <div class="card medium indigo accent-1" style="width:140%">
+                  <div class="card-content white-text" style="width:140%">
+                    
+                    <span class="card-title">{{ star.name }}</span>
+                    <p>Id : {{ star.id }}</p>
+                    <p>Designation : {{ star.designation }}</p>
+                    <p>Constellation : {{ star.constellation }}</p>
+                    <p>ConstellationCode : {{ star.constellationCode }}</p>
+                    <p>Approval Date : {{star.approvalDate}}</p>
                   </div>
-                </div>
-              </div>
             </div>
           </div>
       </div>`,
