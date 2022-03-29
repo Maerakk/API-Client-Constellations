@@ -9,7 +9,7 @@ const starDao = {
 
     findAllStars: async () => (await prisma
         .star
-        .findMany()).map(star => new Star(star.id, star.designation, star.name, star.constellation, star.constellationCode, star.approvalDate))
+        .findMany({include:{constellation:true}})).map(star => new Star(star.id, star.designation, star.name, star.constellation, star.constellationCode, star.approvalDate))
     ,
 
     findStarById: async (id) => {

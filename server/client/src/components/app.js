@@ -1,31 +1,47 @@
 import StarGazer from "../StarGazer.js";
 
 Vue.component('app', {
-    template: ` <div id="app">
+    template: `  <div id="app">
                     <navbar v-on:sendSearch="changeConstell"></navbar>
                     <div v-if="constellSelected === null" class="container">
                         <div class="row ">
-                          <constellation
-                              v-on:constellClick="select" v-on:modifyFav="storeFav"
-                              class="col s12 m12 l4"
-                              v-for="constellation in shown"
-                              v-bind:curConst="constellation" v-bind:key="constellation.id" v-bind:baseFav="favConst.indexOf(constellation.id) !== -1"
-                          >
-
-
-                          </constellation>
-                              </div>
-                    </div>
-                    <div v-else>
-                      <div class="row">
-                        <constellation class="col s12 m12 l4"
-                                       v-bind:curConst="constellations.filter(item=>item.id === constellSelected.id)[0]"
-                                       v-bind:baseFav="favConst.indexOf(constellation.id) !== -1"
-                                       :key="constellSelected.id"></constellation>
-                        <div class="carousel col s12 m12 l4">
-                          <star v-bind:star="star" :key="star.id" v-for="star in shown"></star>
+                            <constellation
+                                v-on:constellClick="select" v-on:modifyFav="storeFav"
+                                class="col s12 m12 l4"
+                                v-for="constellation in shown"
+                                v-bind:curConst="constellation" v-bind:key="constellation.id" v-bind:baseFav="favConst.indexOf(constellation.id) !== -1"
+                            >
+                            </constellation>
                         </div>
-                      </div>
+                    </div>
+                    
+                    <div v-else>
+                        <div class="row" id="buffer"></div>
+                        <div class="row" id="buffer"></div>
+                        <div class="row">
+                            <div class="col l1" id="buffer"></div>
+                            <constellation class="col s12 m12 l4"
+                                v-on:modifyFav="storeFav"
+                                v-bind:curConst="constellations.filter(item=>item.id === constellSelected.id)[0]"
+                                v-bind:baseFav="favConst.indexOf(constellSelected.id) !== -1"
+                                :key="constellSelected.id"
+                            >
+                            </constellation>
+                            <div class="carousel col s12 m12 l6" style="margin-top: 3%">
+                                <div v-if="shown.length>0">
+                                    <star v-bind:star="star" :key="star.id" v-for="star in shown"></star>
+                                </div>
+                                <div v-else>
+                                    <div class="carousel-item">
+                                        <div class="card medium indigo accent-1" style="width:140%">
+                                            <div class="card-content white-text" style="width:100%">
+                                                <span class="card-title">Pas d'étoiles indiqués</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>`,
 
@@ -70,7 +86,6 @@ Vue.component('app', {
             }else{
                 this.favConst = this.favConst.filter(item => item !== id)
             }
-            console.log(this.favConst)
             localStorage.setItem("favConst", JSON.stringify(this.favConst))
         }
     },
@@ -81,10 +96,6 @@ Vue.component('app', {
                 .then(data => {
                     this.constellations = data;
                     this.shown = this.constellations;
-                    console.log(this.favConst)
-                    this.constellations.forEach(item => {
-                        console.log(this.favConst.indexOf(item.id))
-                    })
                 })
                 .catch(error => {
                     console.log(error)
@@ -99,7 +110,6 @@ Vue.component('app', {
     },
     updated() {
             let options = {
-                fullWidth: true,
                 numVisible: 3,
                 indicators: true
             }

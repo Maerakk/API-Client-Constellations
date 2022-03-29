@@ -40,7 +40,7 @@ Vue.component('navbar', {
             this.$emit('sendSearch',this.query);
         },
         handleChange : function (query){
-            this.$emit('sendSearch',query)
+            this.$emit('sendSearch',this.query)
         },
         handleAutoComplete: function (query){
             this.$emit('sendSearch',query)
