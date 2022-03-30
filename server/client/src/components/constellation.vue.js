@@ -69,6 +69,5 @@ Vue.component('constellation', {
 
     },
     mounted() {
-        console.log(this.baseFav)
     }
 })
