@@ -4,9 +4,22 @@ const Joi = require('joi');
 const routes = require('./routes');
 const inert = require('@hapi/inert');
 const vision = require('@hapi/vision');
+const AuthJwt = require('hapi-auth-jwt2');
+const jwt = require('jsonwebtoken');
 const Path = require('path');
 
-// console.log(__dirname)
+const myKey = '1234';
+const users = {
+    1: {
+        id: 1,
+        name: 'Maëlle'
+    },
+    2: {
+        id: 2,
+        name: 'Jules'
+    }
+};
+
 
 let server = Hapi.server({
     port: 1234,
@@ -19,6 +32,18 @@ let server = Hapi.server({
     }
 
 });
+
+
+const validate = async function (decoded, request, h) {
+    console.log(decoded);
+    // do your checks to see if the person is valid
+    if (!users[decoded.id]) {
+        return { isValid: false };
+    }
+    else {
+        return { isValid: true };
+    }
+};
 
 
 const swaggerOptions = {
@@ -44,7 +69,15 @@ exports.start = async () => {
         {
             plugin: HapiSwagger,
             options: swaggerOptions
-        }])
+        },
+        AuthJwt
+        ])
+
+        server.auth.strategy('jwt', 'jwt',
+        { key: myKey, // Never Share your secret key
+            validate  // validate function defined above
+        });
+
 
 // route pour le client
 

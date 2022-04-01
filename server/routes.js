@@ -1,10 +1,12 @@
 'use strict';
 const constellationController = require('./controller/constellation.controller').constellationController;
 const starsController = require('./controller/star.controller').starController;
-const joiSchemas = require('./joiSchemas')
+const joiSchemas = require('./joiSchemas');
 const Joi = require('joi');
 const Boom = require('@hapi/boom');
-const Hapi = require('@hapi/hapi')
+const Hapi = require('@hapi/hapi');
+const AuthJwt = require('hapi-auth-jwt2');
+const jwt = require('jsonwebtoken');
 const Prisma = require('prisma/prisma-client');
 const Constellation = require("./model/constellation.model");
 const prisma = new Prisma.PrismaClient(
@@ -17,6 +19,8 @@ const prisma = new Prisma.PrismaClient(
 
 const constellationsArraySchema = Joi.array().items(joiSchemas.constellationsSchema.label("Constellations")).label("ConstellationsArray");
 // schemaConstellations.validate(constellationController.findAllConstellation);
+
+const myKey = '1234';
 
 const responseModel = Joi.object({
     equals: Joi.number()
@@ -69,6 +73,22 @@ try {
                 }
             }
         },
+        {method: 'GET',
+            path: '/api/auth/{id}/{name}',
+            handler: function (request, h){
+                const id = request.params.id;
+                const name = request.params.name;
+                const payload = {
+                    id: id,
+                    name: name
+                }
+                const options = {
+                    algorithm: 'HS256',
+                    expiresIn: '1h'}
+                return jwt.sign(payload,myKey,options);
+            }
+        },
+
 //~~~~~~~~~~~~~~~~~~~~~~~CONSTELLATIONS~~~~~~~~~~~~~~~~~~~~~~~
         {
             path: '/api/constellations',
