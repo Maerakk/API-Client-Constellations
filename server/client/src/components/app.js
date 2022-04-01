@@ -2,7 +2,11 @@ import StarGazer from "../StarGazer.js";
 
 Vue.component('app', {
     template: `  <div id="app">
-                    <navbar v-on:sendSearch="changeConstell"></navbar>
+                    <navbar 
+                        v-on:sendSearch="changeConstell"
+                        v-on:showFav="showFav"
+                        v-on:showConstell="showAll"
+                    ></navbar>
                     <div v-if="constellSelected === null" class="container">
                         <div class="row ">
                             <constellation
@@ -28,7 +32,7 @@ Vue.component('app', {
                             </constellation>
                             <div class="carousel col s12 m12 l6" style="margin-top: 3%">
                                 <div v-if="shown.length>0">
-                                    <star v-bind:star="star" :key="star.id" v-for="star in shown"></star>
+                                    <star v-for="star in shown" v-bind:star="star" :key="star.id"></star>
                                 </div>
                                 <div v-else>
                                     <div class="carousel-item">
@@ -86,6 +90,23 @@ Vue.component('app', {
                 this.favConst = this.favConst.filter(item => item !== id)
             }
             localStorage.setItem("favConst", JSON.stringify(this.favConst))
+        },
+        showFav : function () {
+            console.log(this.favConst)
+            if (this.favConst.length === 1) {
+                this.constellSelected = this.constellations.filter(item => this.favConst.indexOf(item.id) !== -1)[0]
+                this.shown = this.stars.filter(item => {
+                    return item.constellationCode === this.constellSelected.code
+                })
+            }else if (this.favConst.length > 1){
+                this.shown = this.constellations.filter(item => this.favConst.indexOf(item.id) !== -1)
+            }else{
+                this.shown = []
+            }
+        },
+        showAll : function () {
+            this.constellSelected = null
+            this.shown = this.constellations
         }
     },
     // Methode automatiquement appelée par Vue.js lors de la création de l'instance

@@ -23,8 +23,8 @@ Vue.component('navbar', {
                                     </div>
                                 </div>
                             </li>
-                            <li><a href="etoiles">Étoiles</a></li>
-                            <li><a href="">Constellation</a></li>
+                            <li><a href="#" v-on:click.stop="showFav">Favoris</a></li>
+                            <li><a href="#" v-on:click.stop="showConstell">Constellation</a></li>
                             <li><a href="api">API</a></li>
                             <li><a href="documentation">Docs</a></li>
                         </ul>
@@ -42,10 +42,15 @@ Vue.component('navbar', {
         handleChange : function (query){
             this.$emit('sendSearch',this.query)
         },
-        handleAutoComplete: function (query){
-            this.$emit('sendSearch',query)
+        handleAutoComplete: function (query) {
+            this.$emit('sendSearch', query)
+        },
+        showFav : function () {
+            this.$emit('showFav');
+        },
+        showConstell : function () {
+            this.$emit('showConstell');
         }
-
     },
     mounted(){
         const datalist = []
