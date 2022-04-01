@@ -10,7 +10,7 @@ const Constellation = require("./model/constellation.model");
 const prisma = new Prisma.PrismaClient(
     {datasources: {
         db: {
-            url: 'file:./prisma/datasource.db'
+            url: 'file:./datasource.db'
         }
         }}
 );

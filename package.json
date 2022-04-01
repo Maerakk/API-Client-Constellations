@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server/serverStart.js",
     "test-rest": "lab ./server/test --coverage -I 'NOT_PRISMA_-DATA_PROXY,__core-js_shared__,CSS,regeneratorRuntime,core,Symbol(__RESOLVED_TEMP_DIRECTORY__)'",
-    "prisma-push": "node ./node_modules/prisma generata && node ./node_modules/prisma db push"
+    "prisma-generate-push": "node ./node_modules/prisma generate && node ./node_modules/prisma db push",
+    "prisma-create-db": "node ./server/createDB.js"
   },
   "repository": {
     "type": "git",

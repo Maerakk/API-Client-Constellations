@@ -8,16 +8,19 @@ const Prisma = require('prisma/prisma-client');
 const prisma = new Prisma.PrismaClient({
     datasource: {
         db: {
-            url: 'file:./prisma/datasourcestest'
+            url: 'file:./prisma/datasourcestest.db'
         }
     }
 });
+const {createConstell} = require('../data/Constell_JsonToDb')
+const {createStars} = require('../data/Stars_JsonToDb')
+await createConstell(prisma)
+await createStars(prisma)
+
 
 describe('GET /', () => {
     let server
     beforeEach(async () => {
-        // await server.initialize();
-        // return server;
         server = await init();
     });
     afterEach(async () => {
