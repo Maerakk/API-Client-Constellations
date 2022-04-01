@@ -9,8 +9,7 @@ Vue.component('app', {
                                 v-on:constellClick="select" v-on:modifyFav="storeFav"
                                 class="col s12 m12 l4"
                                 v-for="constellation in shown"
-                                v-bind:curConst="constellation" v-bind:key="constellation.id" v-bind:baseFav="favConst.indexOf(constellation.id) !== -1"
-                            >
+                                v-bind:curConst="constellation" v-bind:key="constellation.id" v-bind:baseFav="favConst.indexOf(constellation.id) !== -1">
                             </constellation>
                         </div>
                     </div>
@@ -20,7 +19,7 @@ Vue.component('app', {
                         <div class="row" id="buffer"></div>
                         <div class="row">
                             <div class="col l1" id="buffer"></div>
-                            <constellation class="col s12 m12 l4"
+                            <constellation class="col s12 m12 l5"
                                 v-on:modifyFav="storeFav"
                                 v-bind:curConst="constellations.filter(item=>item.id === constellSelected.id)[0]"
                                 v-bind:baseFav="favConst.indexOf(constellSelected.id) !== -1"

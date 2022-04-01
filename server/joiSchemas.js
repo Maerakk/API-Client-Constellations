@@ -6,11 +6,10 @@ const starsSchema = Joi.object({
     name: Joi.string(),
     constellation: Joi.string(),
     constellationCode: Joi.string(),
-    approuvalDate: Joi.string()
+    approvalDate: Joi.string()
 }).label('Stars');
 const starsArraySchema = Joi.array().items(starsSchema.label("Stars")).label("StarsArray");
 const constellationsSchema = Joi.object({
-    id: Joi.number(),
     latinName: Joi.string(),
     frenchName: Joi.string(),
     englishName: Joi.string(),
@@ -18,7 +17,7 @@ const constellationsSchema = Joi.object({
     season: Joi.string(),
     mainStar: Joi.string(),
     celestialZone: Joi.string(),
-    exlipticZone: Joi.string(),
+    eclipticZone: Joi.string(),
     milkyWayZone: Joi.string(),
     quad: Joi.string(),
     origin: Joi.string(),

@@ -4,7 +4,14 @@ const {expect} = require('@hapi/code');
 const {afterEach, beforeEach, describe, it} = exports.lab = Lab.script();
 const {init} = require('../server');
 const constellationsDb = require('../database/constellations')
-
+const Prisma = require('prisma/prisma-client');
+const prisma = new Prisma.PrismaClient({
+    datasource: {
+        db: {
+            url: 'file:./prisma/datasourcestest'
+        }
+    }
+});
 
 describe('GET /', () => {
     let server

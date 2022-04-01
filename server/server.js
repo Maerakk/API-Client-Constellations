@@ -5,7 +5,15 @@ const routes = require('./routes');
 const inert = require('@hapi/inert');
 const vision = require('@hapi/vision');
 const Path = require('path');
-
+const Prisma = require('prisma/prisma-client');
+const prisma = new Prisma.PrismaClient(
+    {datasources: {
+            db: {
+                url: 'file:./prisma/datasource.db'
+            }
+        }}
+);
+const {createConstell} = require('./data/Constell_JsonToDb')
 
 
 // console.log(__dirname)
@@ -40,6 +48,7 @@ server.route(routes);
 
 
 exports.start = async () => {
+    await createConstell(prisma)
     await server.register([
         inert,
         vision,

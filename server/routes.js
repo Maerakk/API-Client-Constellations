@@ -7,7 +7,13 @@ const Boom = require('@hapi/boom');
 const Hapi = require('@hapi/hapi')
 const Prisma = require('prisma/prisma-client');
 const Constellation = require("./model/constellation.model");
-const prisma = new Prisma.PrismaClient();
+const prisma = new Prisma.PrismaClient(
+    {datasources: {
+        db: {
+            url: 'file:./prisma/datasource.db'
+        }
+        }}
+);
 
 const constellationsArraySchema = Joi.array().items(joiSchemas.constellationsSchema.label("Constellations")).label("ConstellationsArray");
 // schemaConstellations.validate(constellationController.findAllConstellation);
@@ -247,7 +253,7 @@ try {
                 tags: ['api'],
                 validate: {
                     params: Joi.object({
-                        id: Joi.string().min(3).max(3)
+                        id: Joi.string()
                     })
                 },
                 plugins: {

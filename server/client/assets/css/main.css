@@ -1,6 +1,7 @@
 html {
   height: 100%;
   background-color:#131624;
+  font-family: 'Calibri', sans-serif;
 }
 
 #stars {
@@ -88,7 +89,7 @@ html {
 
 .card-color{
   background-color: #6680c4 !important;
-  color:#F5D44E !important;
+  color:#FFFFFF !important;
 }
 .dropdown-content li>a, .dropdown-content li>span {
   color: #6680c4 !important;
