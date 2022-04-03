@@ -73,19 +73,42 @@ try {
                 }
             }
         },
-        {method: 'GET',
+        {
+            method: 'GET',
             path: '/api/auth/{id}/{name}',
-            handler: function (request, h){
-                const id = request.params.id;
-                const name = request.params.name;
-                const payload = {
-                    id: id,
-                    name: name
+            options: {
+                handler: function (request, h){
+                    const id = request.params.id;
+                    const name = request.params.name;
+                    const payload = {
+                        id: id,
+                        name: name
+                    }
+                    const options = {
+                        algorithm: 'HS256',
+                        expiresIn: '1h'}
+                    return jwt.sign(payload,myKey,options);
+                },
+                description: 'Permet de récupérer le token à utiliser pour les requêtes suivantes',
+                notes: "Un token vous sera donné qu'importe l'id ou le nom que vous donnez\n" +
+                    "Cependant, celui-ci ne sera utilisable que si l'id et le nom sont valide\n" +
+                    "Par la suite, Le token est a placer dans le header Authorization pour les routes le nécessitant",
+                tags: ['api'],
+                validate: {
+                    params: Joi.object({
+                        id: Joi.number().required(),
+                        name: Joi.string().required()
+                    })
+                },
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                description: 'Token created and given',
+                            }
+                        }
+                    }
                 }
-                const options = {
-                    algorithm: 'HS256',
-                    expiresIn: '1h'}
-                return jwt.sign(payload,myKey,options);
             }
         },
 
@@ -188,7 +211,7 @@ try {
 
 
                 },
-                description: 'Add a constellation',
+                description: 'Ajoute une constellation, nécessite un token d\'authentification',
                 validate: {
                     payload: joiSchemas.constellationsSchema
                 },
@@ -202,7 +225,8 @@ try {
                             }
                         }
                     }
-                }
+                },
+                auth:'jwt'
             }
         },
         {
@@ -243,7 +267,7 @@ try {
 
 
                 },
-                description: 'Add a constellation',
+                description: 'Modifie une constellation, nécessite un token d\'authentification',
                 validate: {
                     payload: joiSchemas.constellationsSchema
                 },
@@ -257,7 +281,8 @@ try {
                             }
                         }
                     }
-                }
+                },
+                auth:'jwt'
             }
         },
         {
@@ -269,7 +294,7 @@ try {
                     const id = parseInt(request.params.id);
                     return constellationController.deleteConstellationById(id);
                 },
-                description: 'Delete a constellation. Delete the stars too !',
+                description: 'Supprime une constellation ! et ses étoiles !, nécessite un token d\'authentification',
                 tags: ['api'],
                 validate: {
                     params: Joi.object({
@@ -285,7 +310,8 @@ try {
                             }
                         }
                     }
-                }
+                },
+                auth:'jwt'
             }
         }
         ,
@@ -296,7 +322,7 @@ try {
                 handler: (request, h) => {
                     return constellationController.deleteConstellations();
                 },
-                description: 'Supprime toutes les constellations et les étoiles',
+                description: 'Supprime toutes les constellations et les étoiles, nécessite un token d\'authentification',
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
@@ -307,7 +333,8 @@ try {
                             }
                         }
                     }
-                }
+                },
+                auth:'jwt'
             }
         },
 //~~~~~~~~~~~~~~~~~~~~~~~STARS~~~~~~~~~~~~~~~~~~~~~~~
@@ -388,7 +415,7 @@ try {
                         return h.response({error: error}).code(203)
                     }
                 },
-                description: 'Ajouter une étoile',
+                description: 'Ajouter une étoile, nécessite un token d\'authentification',
                 notes: 'Permet d\'ajouter une étoile',
                 validate: {
                     payload: joiSchemas.starsSchema
@@ -403,7 +430,8 @@ try {
                             }
                         }
                     }
-                }
+                },
+                auth:'jwt'
             }
         },
         {
@@ -415,7 +443,7 @@ try {
                     console.log(request.params)
                     return starsController.deleteStarById(id);
                 },
-                description: 'Supprimer une étoile',
+                description: 'Supprimer une étoile, nécessite un token d\'authentification',
                 notes: 'Permet de supprimer une étoile',
                 tags: ['api'],
                 validate: {
@@ -432,7 +460,8 @@ try {
                             }
                         }
                     }
-                }
+                },
+                auth:'jwt'
             }
         },
         {

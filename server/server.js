@@ -58,7 +58,6 @@ const swaggerOptions = {
 
 
 
-server.route(routes);
 
 
 
@@ -73,10 +72,13 @@ exports.start = async () => {
         AuthJwt
         ])
 
-        server.auth.strategy('jwt', 'jwt',
+    server.auth.strategy('jwt', 'jwt',
         { key: myKey, // Never Share your secret key
             validate  // validate function defined above
         });
+
+    server.route(routes);
+
 
 
 // route pour le client
