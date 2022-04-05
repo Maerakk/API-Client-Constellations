@@ -130,7 +130,6 @@ exports.start = async () => {
 
 exports.init = async () => {
     await server.initialize();
-
     return server;
 };
 process.on('unhandledRejection', (err) => {

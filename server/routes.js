@@ -57,7 +57,7 @@ try {
             method: 'GET',
             options: {
                 handler: (request, h) => {
-                    return Boom.notFound('Route not found')
+                    return Boom.notFound()
                 },
                 tags: ['api'],
                 description: '404 Route Not Found',
@@ -127,6 +127,9 @@ try {
                 handler: async (request, h) => {
                     const id = request.params.id;
                     const response = await constellationController.findConstellationById(id)
+                    if(response == null) {
+                        return Boom.notFound()
+                    }
                     return h.response(response);
                 },
                 description: 'Récupérer une constellation par son code',
@@ -134,16 +137,19 @@ try {
                 tags: ['api'],
                 validate: {
                     params: Joi.object({
-                        id: Joi.string().min(3).max(3)
+                        id: Joi.string()
                     })
                 },
                 plugins: {
                     'hapi-swagger': {
                         responses: {
                             '200': {
-                                description: 'Constellation found',
+                                description: 'Constellation trouvée',
                                 schema: joiSchemas.constellationsSchema
 
+                            },
+                            '404': {
+                                description: 'Constellation non trouvée'
                             }
                         }
                     }
@@ -172,11 +178,11 @@ try {
                             stars: request.payload.stars
                         };
                         if (Object.values(payload).includes(undefined)) {
-                            return h.response({error: "request error"}).code(203);
+                            return Boom.badRequest("Requête erronée, regarder la doc pour vérifier la syntaxe");
                         } else {
                             const response = await constellationController.addConstellation(payload)
                             if (response == null) {
-                                return h.response({error: "request error"}).code(203)
+                                return Boom.badRequest("Requête erronée, regarder la doc pour vérifier la syntaxe");
                             } else {
                                 return h.response(response).header("access-control-allow-origin", "127.0.0.1").code(201);
                             }
@@ -196,9 +202,12 @@ try {
                 plugins: {
                     'hapi-swagger': {
                         responses: {
-                            '200': {
-                                description: 'Constellation added successfully',
+                            '201': {
+                                description: 'Constellation ajoutée',
                                 schema: joiSchemas.constellationsSchema
+                            },
+                            '404': {
+                                description: 'Requête erronée, regarder la doc pour vérifier la syntaxe'
                             }
                         }
                     }
@@ -287,6 +296,34 @@ try {
                     }
                 }
             }
+        },
+        {
+            path: '/api/constellations/delete/name/{name}',
+            method: 'DELETE',
+            options: {
+
+                handler: (request, h) => {
+                    const name = request.params.name;
+                    return constellationController.deleteConstellationByName(name);
+                },
+                description: 'Delete a constellation. Delete the stars too !',
+                tags: ['api'],
+                validate: {
+                    params: Joi.object({
+                        name: Joi.string()
+                    })
+                },
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            '200': {
+                                description: 'Constellation deleted successfully',
+                                schema: joiSchemas.constellationsSchema
+                            }
+                        }
+                    }
+                }
+            }
         }
         ,
         {
@@ -336,9 +373,15 @@ try {
             path: '/api/stars/{id}',
             method: 'GET',
             options: {
-                handler: (request, h) => {
+                handler: async (request, h) => {
                     const id = request.params.id;
-                    return starsController.findStarById(id);
+                    const response = await starsController.findStarById(id);
+                    if (response==null){
+                        return  Boom.notFound()
+                    }
+                    else {
+                        return h.response(response);
+                    }
                 },
                 description: 'Récupère une étoile',
                 notes: 'Récupère un tableau de données pour l\'étoile voulue. Choix de l\'étoile par sa désignation',

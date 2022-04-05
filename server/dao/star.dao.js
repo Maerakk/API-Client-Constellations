@@ -14,6 +14,7 @@ const starDao = {
 
     findStarById: async (id) => {
         const star = await prisma.star.findUnique({where: {designation: id}});
+        console.log(star)
         if (star==null){
             return null
         }

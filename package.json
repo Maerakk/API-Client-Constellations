@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server/serverStart.js",
-    "test-rest": "lab ./server/test --coverage -I 'NOT_PRISMA_-DATA_PROXY,__core-js_shared__,CSS,regeneratorRuntime,core,Symbol(__RESOLVED_TEMP_DIRECTORY__)'",
-    "prisma-generate-push": "node ./node_modules/prisma generate && node ./node_modules/prisma db push",
+    "test-rest": "npm run prisma-test && lab ./server/test --coverage -I 'NOT_PRISMA_-DATA_PROXY,__core-js_shared__,CSS,regeneratorRuntime,core,Symbol(__RESOLVED_TEMP_DIRECTORY__)'",
+    "prisma-test": "node ./node_modules/prisma generate && node ./node_modules/prisma db push && node ./server/createtestDB.js",
     "prisma-create-db": "node ./server/createDB.js"
   },
   "repository": {
@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Maerakk/projet_web/issues"
+    " rl": "https://github.com/Maerakk/projet_web/issues"
   },
   "homepage": "https://github.com/Maerakk/projet_web#readme",
   "devDependencies": {

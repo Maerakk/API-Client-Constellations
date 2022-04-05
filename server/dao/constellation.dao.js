@@ -165,6 +165,14 @@ const constellationDao = {
         }catch (e) {
             console.log(e);
         }
+    },
+    deleteConstellationByName: async (name) => {
+        try {
+            const constell = await prisma.constellation.delete({where: {code: name}})
+            return new Constellation(constell.id, constell.latinName, constell.frenchName, constell.englishName, constell.code, constell.season, constell.mainStar, constell.celestialZone, constell.eclipticZone, constell.milkyWayZone, constell.quad, constell.origin, constell.stars)
+        }catch (e) {
+            console.log(e);
+        }
     }
     ,
     deleteConstellations: async () => {

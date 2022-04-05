@@ -4,7 +4,6 @@ const starsSchema = Joi.object({
     id: Joi.string(),
     designation: Joi.string(),
     name: Joi.string(),
-    constellation: Joi.string(),
     constellationCode: Joi.string(),
     approvalDate: Joi.string()
 }).label('Stars');
