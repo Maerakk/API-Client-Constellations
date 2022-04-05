@@ -6,7 +6,7 @@ const Prisma = require("prisma/prisma-client");
 
 // const prisma = new PrismaClient()
 
-const createConstell = async function(prisma)  {
+exports.createConstell = async function(prisma)  {
     await fs.readFile("./data/88-constellations.json",'utf-8',
         async (err, data) => {
             if(err){
@@ -45,4 +45,3 @@ const prisma = new Prisma.PrismaClient(
             }
         }}
 );
-createConstell(prisma)

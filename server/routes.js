@@ -51,7 +51,6 @@ try {
                 }
             }
         },
-
         {
             path: '/api/{any*}',
             method: 'GET',

@@ -3,7 +3,7 @@ const constellation = require('../server/model/constellation.model')
 const star = require('../server/model/star.model')
 const Prisma = require("prisma/prisma-client");
 
-const starCreate = async function (prisma){
+exports.starCreate = async function (prisma){
     await fs.readFile("data/list-of-iau-approved-star-names-as-of-24112016.json",'utf-8',
         async  (err,data)=>{
             if(err){
@@ -55,4 +55,3 @@ const prisma = new Prisma.PrismaClient(
             }
         }}
 );
-starCreate(prisma)

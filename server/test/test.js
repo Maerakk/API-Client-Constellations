@@ -21,8 +21,16 @@ const prisma = new Prisma.PrismaClient({
 
 describe('GET /', () => {
     let server
+    let auth = null
     beforeEach(async () => {
         server = await init();
+        it('/api/auth/1/maëlle', async () => {
+            const res = await server.inject({
+                method: 'GET',
+                url: '/api/auth/1/maëlle'
+            });
+            auth = res;
+        });
     });
     afterEach(async () => {
         await server.stop();

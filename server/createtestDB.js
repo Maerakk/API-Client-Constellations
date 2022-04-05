@@ -6,7 +6,7 @@ const prisma = new Prisma.PrismaClient(
             }
         }}
 );
-const {createConstell} = require('../data/Constell_JsonToDb')
-const {starCreate} = require('../data/Star_JsonToDb')
-createConstell(prisma)
-starCreate(prisma)
+const createConstell = require('../data/Constell_JsonToDb')
+const starCreate = require('../data/Star_JsonToDb')
+createConstell.createConstell(prisma)
+starCreate.starCreate(prisma)
