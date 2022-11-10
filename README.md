@@ -1,10 +1,10 @@
 # API & Client Constellations
-**WORK IN PROGRESS**
 
 ## API
 ### Lancer le serveur
 Pour lancer le serveur, se rendre dans le dossier racine du projet et lancer la commande ```npm run dev```.
 Laisser le terminal ouvert, il indiquera les potentielles erreurs lors de l'exécution du projet.
+Verifier que la version de Node JS est 15.14.0
 
 
 ### Documentation
